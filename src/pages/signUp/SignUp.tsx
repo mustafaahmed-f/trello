@@ -17,9 +17,9 @@ function SignUp({}: SignUpProps) {
     const loading = toast.loading("Creating account...");
     try {
       setIsLoading(true);
-      const res = await signUp(data);
+      await signUp(data);
       toast.dismiss(loading);
-      toast.success("Account has been created successfully !");
+      toast.success("Please, check you mail !");
       navigate("/login");
     } catch (error) {
       toast.dismiss(loading);
