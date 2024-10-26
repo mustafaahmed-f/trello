@@ -3,4 +3,5 @@ export interface usersStateType {
   token: string;
   email: string;
   image: string;
+  id: string;
 }

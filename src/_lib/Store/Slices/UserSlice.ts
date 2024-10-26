@@ -6,6 +6,7 @@ const initialState: usersStateType = {
   userName: "",
   email: "",
   image: "",
+  id: "",
 };
 
 const userSlice = createSlice({
@@ -17,12 +18,14 @@ const userSlice = createSlice({
       state.userName = action.payload.userName;
       state.email = action.payload.email;
       state.image = action.payload.image;
+      state.id = action.payload.id;
     },
     logOut: (state) => {
       state.token = "";
       state.userName = "";
       state.email = "";
       state.image = "";
+      state.id = "";
     },
   },
 });
