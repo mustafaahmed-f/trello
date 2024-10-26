@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../_lib/Store/Store";
-import { setUser } from "../../_lib/Store/Slices/UserSlice";
-import { checkUserSession } from "../../_lib/checkUserSession";
-import Loader from "../../components/Loader";
+import { useEffect, useState } from "react";
 import { getTasks } from "../../_lib/APIs/TaskAPIs";
 import { fetchTasks } from "../../_lib/Store/Slices/TasksSlice";
-import TaskList from "./components/TaskList";
+import { useAppDispatch, useAppSelector } from "../../_lib/Store/Store";
+import { checkUserSession } from "../../_lib/checkUserSession";
+import Loader from "../../components/Loader";
 import NewTaskDialog from "./components/NewTaskDialog";
+import TaskList from "./components/TaskList";
 interface TasksProps {}
 
 function Tasks({}: TasksProps) {

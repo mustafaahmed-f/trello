@@ -1,4 +1,3 @@
-import React from "react";
 import SingleTasks from "./SingleTasks";
 
 interface TaskListProps {

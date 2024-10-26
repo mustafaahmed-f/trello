@@ -9,13 +9,13 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { updateTask } from "../../../_lib/APIs/TaskAPIs";
+import { updateTaskSlice } from "../../../_lib/Store/Slices/TasksSlice";
 import { useAppDispatch, useAppSelector } from "../../../_lib/Store/Store";
 import { editTaskSchema } from "../../../_lib/validations/editTaskValidation";
 import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
 import EditTaskTextDialog from "./EditTaskTextDialog";
-import { updateTask } from "../../../_lib/APIs/TaskAPIs";
-import { updateTaskSlice } from "../../../_lib/Store/Slices/TasksSlice";
-import toast from "react-hot-toast";
 
 interface EditTaskDialogProps {
   taskId: number;
@@ -91,7 +91,7 @@ function EditTaskDialog({ taskId }: EditTaskDialogProps) {
               Cancel
             </Button>
             <Button type="submit" disabled={isLoading}>
-              Add
+              Edit
             </Button>
           </DialogActions>
         </form>

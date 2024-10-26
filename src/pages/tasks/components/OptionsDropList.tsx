@@ -1,8 +1,7 @@
-import React from "react";
-import ViewTask from "./ViewTask";
 import { useAppSelector } from "../../../_lib/Store/Store";
-import EditTaskDialog from "./EditTaskDialog";
 import DeleteDialog from "./DeleteDialog";
+import EditTaskDialog from "./EditTaskDialog";
+import ViewTask from "./ViewTask";
 
 interface OptionsDropListProps {
   taskId: number;
