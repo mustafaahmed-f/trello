@@ -18,12 +18,10 @@ function LogIn({}: LogInProps) {
     const loading = toast.loading("Logging ..");
     try {
       setIsLoading(true);
-      const res = await logIn(data);
-      if (res.message === "Done") {
-        toast.dismiss(loading);
-        toast.success("Logged in successfully !");
-        navigate("/tasks");
-      }
+      await logIn(data);
+      toast.dismiss(loading);
+      toast.success("logged in successfully !");
+      navigate("/tasks");
     } catch (error) {
       toast.dismiss(loading);
       toast.error("Failed to login");
@@ -64,7 +62,7 @@ function LogIn({}: LogInProps) {
           </div>
         ))}
       </div>
-      <div className="flex flex-col justify-center w-full px-2 py-5 bg-primary-300 md:w-1/2 sm:px-3">
+      <div className="flex flex-col justify-center w-full px-2 py-5 bg-primary-200 md:w-1/2 sm:px-3">
         <div className="my-auto bg-white rounded-md bg-opacity-90 px-9 py-9 opacity-80 backdrop-blur-xl lg:py-10">
           <h2 className="mb-10 text-3xl font-semibold lg:text-4xl">Sign in</h2>
           <AuthForm

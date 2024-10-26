@@ -13,15 +13,14 @@ function SignUp({}: SignUpProps) {
   const navigate = useNavigate();
 
   async function signUpFunc(data: any) {
+    console.log(data);
     const loading = toast.loading("Creating account...");
     try {
       setIsLoading(true);
       const res = await signUp(data);
-      if (res.message === "Done") {
-        toast.dismiss(loading);
-        toast.success("Account has been created successfully !");
-        navigate("/login");
-      }
+      toast.dismiss(loading);
+      toast.success("Account has been created successfully !");
+      navigate("/login");
     } catch (error) {
       toast.dismiss(loading);
       toast.error("Failed to create account");
@@ -39,7 +38,7 @@ function SignUp({}: SignUpProps) {
     { field: "rePassword", label: "Re-Password" },
   ];
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center w-full px-2 py-5 mx-auto bg-primary-200 md:w-1/2 sm:px-3">
       <div className="my-auto bg-white rounded-md bg-opacity-90 px-9 py-9 opacity-80 backdrop-blur-xl lg:py-10">
         <h2 className="mb-10 text-3xl lg:text-4xl">Sign up</h2>
         <AuthForm

@@ -1,10 +1,15 @@
 import supabase from "../supabase";
 
-export async function signUp({ email, password, userName }: any) {
+export async function signUp(formdata: any) {
+  const { email, password, userName } = formdata;
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
   });
+
+  if (error) {
+    throw new Error(error.message);
+  }
 
   if (data?.user) {
     await supabase.from("users").insert({
@@ -22,6 +27,10 @@ export async function logIn({ email, password }: any) {
     email,
     password,
   });
+
+  if (error) {
+    throw new Error(error.message);
+  }
 
   if (user) {
     const { data: profile } = await supabase

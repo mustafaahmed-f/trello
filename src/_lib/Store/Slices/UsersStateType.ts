@@ -1,5 +1,5 @@
 export interface usersStateType {
   userName: string;
-  isAuth: boolean;
+  isAuth?: boolean;
   email: string;
 }

@@ -7,17 +7,17 @@ interface UnAuthProtectedProps {
 }
 
 function UnAuthProtected({ children }: UnAuthProtectedProps) {
-  const { token } = useAppSelector((state) => state.user);
+  const { isAuth } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
 
   useEffect(
     function () {
-      if (token) navigate("/tasks");
+      if (isAuth) navigate("/tasks");
     },
-    [token, navigate]
+    [isAuth, navigate]
   );
 
-  return !token ? children : null;
+  return !isAuth ? children : null;
 }
 
 export default UnAuthProtected;

@@ -7,17 +7,17 @@ interface AuthProtectedProps {
 }
 
 function AuthProtected({ children }: AuthProtectedProps) {
-  const { token } = useAppSelector((state) => state.user);
+  const { isAuth } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
 
   useEffect(
     function () {
-      if (!token) navigate("/login");
+      if (!isAuth) navigate("/login");
     },
-    [token, navigate]
+    [isAuth, navigate]
   );
 
-  return token ? children : null;
+  return isAuth ? children : null;
 }
 
 export default AuthProtected;

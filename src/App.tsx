@@ -1,15 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
-import Main from "./pages/main/main";
+import Main from "./pages/main/Main";
 import UnAuthProtected from "./components/UnAuthProtected";
-import LogIn from "./pages/logIn/logIn";
+import LogIn from "./pages/logIn/LogIn";
 import AuthProtected from "./components/AuthProtected";
-import Tasks from "./pages/tasks/tasks";
-import SignUp from "./pages/signUp/signUp";
+import Tasks from "./pages/tasks/Tasks";
+import SignUp from "./pages/signUp/SignUp";
+import { loader as layoutLoader } from "./components/AppLayout";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
+    loader: layoutLoader,
     children: [
       {
         element: (
