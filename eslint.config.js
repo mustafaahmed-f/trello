@@ -31,6 +31,7 @@ export default tseslint.config(
       "no-empty-pattern": "off",
       "prefer-const": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      "react-refresh/only-export-components": "off",
     },
   }
 );

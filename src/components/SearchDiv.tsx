@@ -1,13 +1,16 @@
-import React, { useEffect, useRef } from "react";
-import { useAppSelector } from "../_lib/Store/Store";
-import AutoComplete from "./AutoComplete";
-import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
+import { useEffect, useRef } from "react";
+import { useAppSelector } from "../_lib/Store/Store";
+import { useSearchContext } from "../context/SearchProvider";
+import AutoComplete from "./AutoComplete";
 interface SearchDivProps {}
 
 function SearchDiv({}: SearchDivProps) {
-  const [showAutoComplete, setShowAutoComplete] = React.useState(false);
-  const [searchVal, setSearchVal] = React.useState("");
+  const { showAutoComplete, setShowAutoComplete, searchVal, setSearchVal } =
+    useSearchContext();
+  // const { 0: showAutoComplete, 1: setShowAutoComplete } = React.useState(false);
+  // const { 0: searchVal, 1: setSearchVal } = React.useState("");
   const { trie } = useAppSelector((store) => store.tasks);
   const inputRef = useRef<HTMLInputElement>(null);
 
