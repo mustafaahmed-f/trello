@@ -1,10 +1,9 @@
-import React from "react";
-import Header from "./Header/Header";
-import { Outlet, useNavigation } from "react-router-dom";
-import Loader from "./Loader";
-import SearchProvider from "../context/SearchProvider";
-import { checkUserSession } from "../_lib/checkUserSession";
 import { Toaster } from "react-hot-toast";
+import { Outlet, useNavigation } from "react-router-dom";
+import { checkUserSession } from "../_lib/checkUserSession";
+import SearchProvider from "../context/SearchProvider";
+import Header from "./Header/Header";
+import Loader from "./Loader";
 
 interface AppLayoutProps {}
 

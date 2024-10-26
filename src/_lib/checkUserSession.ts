@@ -7,7 +7,7 @@ export async function checkUserSession() {
   if (data.session) {
     const user = data.session.user;
     const email = user.email || ""; // Default to an empty string if undefined
-    const { data: userData, error } = await supabase
+    const { data: userData } = await supabase
       .from("users")
       .select("userName")
       .eq("user_id", user.id)
