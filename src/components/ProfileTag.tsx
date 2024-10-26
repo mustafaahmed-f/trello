@@ -25,6 +25,7 @@ function ProfileTag({}: ProfileTagProps) {
       }
     }
 
+    const showProfileBtn = document.querySelector(".profileBtn");
     function handleClick(e: any) {
       const profileSection = document.querySelector(".profileSection");
       if (e.target.closest(".profileBtn")) {
@@ -35,9 +36,9 @@ function ProfileTag({}: ProfileTagProps) {
         toggle();
       }
     }
-    document.addEventListener("click", handleClick);
+    showProfileBtn?.addEventListener("click", handleClick);
     return () => {
-      document.removeEventListener("click", handleClick);
+      showProfileBtn?.removeEventListener("click", handleClick);
 
       if (timeOut) clearTimeout(timeOut);
     };

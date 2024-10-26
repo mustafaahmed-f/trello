@@ -5,12 +5,15 @@ import { checkUserSession } from "../../_lib/checkUserSession";
 import Loader from "../../components/Loader";
 import { getTasks } from "../../_lib/APIs/TaskAPIs";
 import { fetchTasks } from "../../_lib/Store/Slices/TasksSlice";
+import TaskList from "./components/TaskList";
+import NewTaskDialog from "./components/NewTaskDialog";
 interface TasksProps {}
 
 function Tasks({}: TasksProps) {
-  const { 0: isLoading, 1: setIsLoading } = useState(false);
+  const { 0: isLoading, 1: setIsLoading } = useState(true);
   const user = useAppSelector((store) => store.user);
   const dipatch = useAppDispatch();
+  const { tasks } = useAppSelector((store) => store.tasks);
   useEffect(() => {
     async function checkUser() {
       if (!user.isAuth) {
@@ -34,7 +37,24 @@ function Tasks({}: TasksProps) {
     tasks();
   }, [dipatch, setIsLoading]);
 
-  return isLoading ? <Loader /> : <div></div>;
+  const toDoTasks = tasks.filter((task) => task.state === "todo");
+  const inProgressTasks = tasks.filter((task) => task.state === "doing");
+  const doneTasks = tasks.filter((task) => task.state === "done");
+  console.log(toDoTasks);
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <>
+      <div className="flex gap-3 mb-3">
+        <NewTaskDialog />
+      </div>
+      <div className="flex flex-col items-center justify-between w-full gap-3 sm:flex-row">
+        <TaskList tasks={toDoTasks} state="To Do" />
+        <TaskList tasks={inProgressTasks} state="On Progress" />
+        <TaskList tasks={doneTasks} state="Done" />
+      </div>
+    </>
+  );
 }
 
 export default Tasks;

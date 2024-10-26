@@ -12,6 +12,9 @@ export default {
         secondary: {
           100: "#6cb1c5",
         },
+        state: "#DFA874",
+        stateText: "#D58D49",
+        highStateText: "#D8727D",
         todo: "#5030E5",
         onProgress: "#FFA500",
         done: "#8BC48A",
