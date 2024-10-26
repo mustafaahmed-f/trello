@@ -1,6 +1,7 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../_lib/Store/Store";
 import { logOut } from "../_lib/Store/Slices/UserSlice";
+import { useNavigate } from "react-router-dom";
 let localStorageKey = import.meta.env.VITE_LOCALSTORAGE_KEY;
 interface ProfileSectionProps {
   isReverse: boolean;
@@ -9,9 +10,12 @@ interface ProfileSectionProps {
 function ProfileSection({ isReverse }: ProfileSectionProps) {
   const { userName } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
-  function handleLogOut() {
+  const navigate = useNavigate()
+  async function handleLogOut() {
     dispatch(logOut());
     localStorage.removeItem(localStorageKey);
+    await logOut()
+    navigate("/")
   }
   return (
     <div

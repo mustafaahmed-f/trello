@@ -25,3 +25,17 @@ export async function logIn(data: any) {
   }
   return res.json();
 }
+
+export async function logOut(id: string) {
+  const res = await fetch("", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to logout");
+  }
+  return res.json();
+}
