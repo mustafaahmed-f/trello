@@ -38,7 +38,7 @@ function Header({}: HeaderProps) {
         {token ? (
           <ProfileTag />
         ) : (
-          <Link to="/login" className="text-lg font-semibold">
+          <Link to="/login" className="text-lg font-semibold text-nowrap">
             Log in
           </Link>
         )}

@@ -7,6 +7,10 @@ export default {
         primary: {
           100: "#FFFFFF",
           200: "#F5F5F5",
+          300: "#FBFDFF",
+        },
+        secondary: {
+          100: "#6cb1c5",
         },
         todo: "#5030E5",
         onProgress: "#FFA500",
