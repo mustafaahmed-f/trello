@@ -1,5 +1,5 @@
 import React from "react";
-import { newTaskSchema } from "../../_lib/validations/newTaskValidation";
+import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import {
@@ -12,6 +12,10 @@ import {
   TextField,
 } from "@mui/material";
 import DialogTextField from "./DialogTextField";
+import toast from "react-hot-toast";
+import { addTaskSlice } from "../../../_lib/Store/Slices/TasksSlice";
+import { addTask } from "../../../_lib/APIs/TaskAPIs";
+import { useAppDispatch } from "../../../_lib/Store/Store";
 
 interface NewTaskDialogProps {}
 
@@ -24,7 +28,9 @@ export interface FormFields {
 }
 
 function NewTaskDialog({}: NewTaskDialogProps) {
+  const { 0: isLoading, 1: setIsLoading } = React.useState(false);
   const schema = newTaskSchema;
+  const dipatch = useAppDispatch();
   const [open, setOpen] = React.useState(false);
   const {
     register,
@@ -37,8 +43,14 @@ function NewTaskDialog({}: NewTaskDialogProps) {
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
+    const loading = toast.loading("Creating task");
+    await addTask(data);
+    dipatch(addTaskSlice(data));
+    toast.dismiss(loading);
+    toast.success("Task added successfully !");
+    setIsLoading(false);
     handleClose();
   };
 
@@ -65,10 +77,12 @@ function NewTaskDialog({}: NewTaskDialogProps) {
             ))}
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} type="button">
+            <Button onClick={handleClose} type="button" disabled={isLoading}>
               Cancel
             </Button>
-            <Button type="submit">Add</Button>
+            <Button type="submit" disabled={isLoading}>
+              Add
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

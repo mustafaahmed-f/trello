@@ -13,8 +13,6 @@ export async function getTasks() {
     console.error(error);
     throw new Error("Failed to fetch tasks");
   }
-  console.log(user?.id);
-  console.log(data);
   return data;
 }
 

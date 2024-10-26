@@ -13,15 +13,15 @@ const tasksSlice = createSlice({
     fetchTasks: (state, action: PayloadAction<taskType[]>) => {
       state.tasks = action.payload;
     },
-    addTask: (state, action: PayloadAction<taskType>) => {
+    addTaskSlice: (state, action: PayloadAction<taskType>) => {
       state.tasks.push(action.payload);
     },
-    deleteTask: (state, action: PayloadAction<taskType>) => {
+    deleteTaskSlice: (state, action: PayloadAction<number>) => {
       state.tasks = state.tasks.filter(
-        (task: taskType) => task.id !== action.payload.id
+        (task: taskType) => task.id !== action.payload
       );
     },
-    updateTask: (state, action: PayloadAction<taskType>) => {
+    updateTaskSlice: (state, action: PayloadAction<taskType>) => {
       state.tasks = state.tasks.map((task: taskType) => {
         if (task.id === action.payload.id) {
           return action.payload;
@@ -33,5 +33,5 @@ const tasksSlice = createSlice({
 });
 
 export default tasksSlice.reducer;
-export const { addTask, deleteTask, updateTask, fetchTasks } =
+export const { addTaskSlice, deleteTaskSlice, updateTaskSlice, fetchTasks } =
   tasksSlice.actions;

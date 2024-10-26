@@ -12,7 +12,6 @@ export async function checkUserSession() {
       .select("userName")
       .eq("user_id", user.id)
       .single();
-    console.log(userData);
     const userName = userData?.userName || ""; // Default to an empty string if undefined
 
     store.dispatch(setUser({ email, userName }));
