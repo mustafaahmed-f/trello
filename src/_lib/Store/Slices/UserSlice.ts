@@ -2,11 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { usersStateType } from "./UsersStateType";
 
 const initialState: usersStateType = {
-  token: "",
+  isAuth: false,
   userName: "",
   email: "",
-  image: "",
-  id: "",
 };
 
 const userSlice = createSlice({
@@ -14,18 +12,14 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<usersStateType>) => {
-      state.token = action.payload.token;
+      state.isAuth = true;
       state.userName = action.payload.userName;
       state.email = action.payload.email;
-      state.image = action.payload.image;
-      state.id = action.payload.id;
     },
     logOut: (state) => {
-      state.token = "";
+      state.isAuth = false;
       state.userName = "";
       state.email = "";
-      state.image = "";
-      state.id = "";
     },
   },
 });

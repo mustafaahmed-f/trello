@@ -1,10 +1,13 @@
 import supabase from "../supabase";
+const {
+  data: { user },
+} = await supabase.auth.getUser();
 
-export async function getTasks(id: number) {
+export async function getTasks() {
   const { data, error } = await supabase
     .from("tasks")
     .select("*")
-    .eq("created_by", id);
+    .eq("created_by", user?.id);
 
   if (error) {
     console.error(error);
@@ -14,12 +17,12 @@ export async function getTasks(id: number) {
   return data;
 }
 
-export async function getSingleTask(id: number, userId: number) {
+export async function getSingleTask(id: number) {
   const { data, error } = await supabase
     .from("tasks")
     .select("*")
     .eq("id", id)
-    .eq("created_by", userId)
+    .eq("created_by", user?.id)
     .single();
 
   if (error) {
@@ -31,7 +34,9 @@ export async function getSingleTask(id: number, userId: number) {
 }
 
 export async function addTask(task: any) {
-  const { data, error } = await supabase.from("tasks").insert([task]);
+  const { data, error } = await supabase
+    .from("tasks")
+    .insert([{ ...task, created_by: user?.id }]);
 
   if (error) {
     console.error(error);
@@ -42,7 +47,11 @@ export async function addTask(task: any) {
 }
 
 export async function deleteTask(id: number) {
-  const { data, error } = await supabase.from("tasks").delete().eq("id", id);
+  const { data, error } = await supabase
+    .from("tasks")
+    .delete()
+    .eq("id", id)
+    .eq("created_by", user?.id);
 
   if (error) {
     console.error(error);
@@ -52,16 +61,12 @@ export async function deleteTask(id: number) {
   return data;
 }
 
-export async function updateTask(
-  id: number,
-  updatedFields: any,
-  userId: number
-) {
+export async function updateTask(id: number, updatedFields: any) {
   const { data, error } = await supabase
     .from("tasks")
     .update(updatedFields)
     .eq("id", id)
-    .eq("created_by", userId);
+    .eq("created_by", user?.id);
 
   if (error) {
     console.error(error);

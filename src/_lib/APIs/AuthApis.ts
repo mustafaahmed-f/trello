@@ -1,41 +1,46 @@
-export async function signUp(data: any) {
-  const res = await fetch("", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+import supabase from "../supabase";
+
+export async function signUp({ email, password, userName }: any) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
   });
-  if (!res.ok) {
-    throw new Error("Failed to signup");
+
+  if (data?.user) {
+    await supabase.from("users").insert({
+      id: data.user.id, // links profile to auth user ID
+      userName,
+    });
   }
-  return res.json();
 }
 
-export async function logIn(data: any) {
-  const res = await fetch("", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
+export async function logIn({ email, password }: any) {
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.signInWithPassword({
+    email,
+    password,
   });
-  if (!res.ok) {
-    throw new Error("Failed to login");
+
+  if (user) {
+    const { data: profile } = await supabase
+      .from("users")
+      .select("userName")
+      .eq("id", user.id)
+      .single();
+
+    return {
+      email: user.email,
+      userName: profile?.userName || null,
+    };
   }
-  return res.json();
 }
 
-export async function logOut(id: string) {
-  const res = await fetch("", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id }),
-  });
-  if (!res.ok) {
-    throw new Error("Failed to logout");
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("Error logging out:", error.message);
+    throw error;
   }
-  return res.json();
 }

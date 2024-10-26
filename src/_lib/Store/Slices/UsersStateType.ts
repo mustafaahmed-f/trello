@@ -1,7 +1,5 @@
 export interface usersStateType {
   userName: string;
-  token: string;
+  isAuth: boolean;
   email: string;
-  image: string;
-  id: string;
 }
