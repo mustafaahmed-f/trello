@@ -10,7 +10,13 @@ function Header({}: HeaderProps) {
   const { token } = useAppSelector((store) => store.user);
   return (
     <div className="flex items-center justify-between px-5 py-3 flex-nowrap bg-primary-200">
-      <div className="text-4xl font-bold logo text-start">Trello</div>
+      <Link
+        to={token ? "/tasks" : "/"}
+        className="flex items-center gap-2 text-3xl font-bold sm:text-4xl logo text-start"
+      >
+        <img src="public/icons8-task-64.png" />
+        <p>Trello</p>
+      </Link>
       <div className="flex items-center gap-2">
         {token && <SearchDiv />}
         {token ? (

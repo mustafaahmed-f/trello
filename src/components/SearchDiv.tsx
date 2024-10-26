@@ -48,9 +48,8 @@ function SearchDiv({}: SearchDivProps) {
         onFocus={() => {
           setShowAutoComplete(true);
         }}
-        placeholder="Search products"
+        placeholder="Search tasks"
         className="flex-grow px-2 py-1 sm:px-3 focus:outline-0"
-        suppressHydrationWarning
       />
       {searchVal && showAutoComplete && <AutoComplete tasksArr={tasksArr} />}
 

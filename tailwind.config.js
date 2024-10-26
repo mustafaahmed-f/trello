@@ -29,10 +29,19 @@ export default {
             "max-height": "0",
           },
         },
+        typer: {
+          "0%": {
+            opacity: 0,
+          },
+          "100%": {
+            opacity: 1,
+          },
+        },
       },
       animation: {
         profileTag: "profileTag 1.2s forwards ease-in-out",
         profileTagReverse: "profileTagClose 1.2s forwards ease-in-out",
+        typer: "typer 0.9s linear infinite",
       },
     },
   },
