@@ -1,8 +1,7 @@
-import React from "react";
-import { useAppDispatch, useAppSelector } from "../_lib/Store/Store";
-import { logOut } from "../_lib/Store/Slices/UserSlice";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../_lib/APIs/AuthApis";
+import { logOut } from "../_lib/Store/Slices/UserSlice";
+import { useAppDispatch, useAppSelector } from "../_lib/Store/Store";
 
 let localStorageKey = import.meta.env.VITE_LOCALSTORAGE_KEY;
 interface ProfileSectionProps {

@@ -1,6 +1,5 @@
-import React from "react";
-import ErrorUI from "./ErrorUI";
 import { useRouteError } from "react-router-dom";
+import ErrorUI from "./ErrorUI";
 
 interface ErrorElementProps {}
 

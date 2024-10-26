@@ -1,10 +1,8 @@
-import React from "react";
-
 interface LoaderProps {}
 
 function Loader({}: LoaderProps) {
   return (
-    <div className="flex h-full w-full justify-center align-middle">
+    <div className="flex justify-center w-full h-full align-middle">
       <span className="loader"></span>
     </div>
   );

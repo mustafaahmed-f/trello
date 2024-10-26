@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { signUpSchema } from "../../_lib/validations/signUpValidation";
-import AuthForm from "../../components/Auth/AuthForm";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "../../_lib/APIs/AuthApis";
+import { signUpSchema } from "../../_lib/validations/signUpValidation";
+import AuthForm from "../../components/Auth/AuthForm";
 
 interface SignUpProps {}
 

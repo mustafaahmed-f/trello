@@ -1,12 +1,10 @@
-import React from "react";
-
 interface TaskSearchResultProps {
   index: number;
   taskTitle: string;
   taskId: number;
 }
 
-function TaskSearchResult({ index, taskTitle, taskId }: TaskSearchResultProps) {
+function TaskSearchResult({ index, taskTitle }: TaskSearchResultProps) {
   return (
     <div
       className={`py-3 px-4 cursor-pointer ${

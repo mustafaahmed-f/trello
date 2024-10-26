@@ -1,6 +1,6 @@
-import React, { ReactNode, useEffect } from "react";
-import { useAppSelector } from "../_lib/Store/Store";
+import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../_lib/Store/Store";
 
 interface AuthProtectedProps {
   children: ReactNode;

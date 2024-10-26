@@ -1,10 +1,8 @@
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useRef } from "react";
-import { useAppSelector } from "../_lib/Store/Store";
 import { useSearchContext } from "../context/SearchProvider";
 import AutoComplete from "./AutoComplete";
-import { Trie } from "../_lib/Trie";
 interface SearchDivProps {
   tasksArr: { taskName: string; taskId: number }[];
 }

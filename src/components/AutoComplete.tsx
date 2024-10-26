@@ -1,5 +1,3 @@
-import React from "react";
-import { taskType } from "../_lib/taskType";
 import TaskSearchResult from "./TaskSearchResult";
 
 interface AutoCompleteProps {

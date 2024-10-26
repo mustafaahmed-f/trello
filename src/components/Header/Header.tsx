@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { useAppSelector } from "../../_lib/Store/Store";
-import SearchDiv from "../SearchDiv";
 import { Link } from "react-router-dom";
-import ProfileTag from "../ProfileTag";
+import { useAppSelector } from "../../_lib/Store/Store";
 import { Trie } from "../../_lib/Trie";
 import { useSearchContext } from "../../context/SearchProvider";
+import ProfileTag from "../ProfileTag";
+import SearchDiv from "../SearchDiv";
 
 interface HeaderProps {}
 

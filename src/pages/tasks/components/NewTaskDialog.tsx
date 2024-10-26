@@ -1,7 +1,4 @@
-import React from "react";
-import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
 import {
   Button,
   Dialog,
@@ -9,13 +6,15 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  TextField,
 } from "@mui/material";
-import DialogTextField from "./DialogTextField";
+import React from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { addTaskSlice } from "../../../_lib/Store/Slices/TasksSlice";
 import { addTask } from "../../../_lib/APIs/TaskAPIs";
+import { addTaskSlice } from "../../../_lib/Store/Slices/TasksSlice";
 import { useAppDispatch } from "../../../_lib/Store/Store";
+import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
+import DialogTextField from "./DialogTextField";
 
 interface NewTaskDialogProps {}
 
