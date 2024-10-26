@@ -9,7 +9,7 @@ interface TaskSearchResultProps {
 function TaskSearchResult({ index, taskTitle, taskId }: TaskSearchResultProps) {
   return (
     <div
-      className={`py-3 px-4 ${
+      className={`py-3 px-4 cursor-pointer ${
         index % 2 === 0 ? "bg-white" : "bg-neutral-200"
       } hover:bg-neutral-300`}
     >

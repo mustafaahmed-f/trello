@@ -12,10 +12,16 @@ export async function signUp(formdata: any) {
   }
 
   if (data?.user) {
-    await supabase.from("users").insert({
-      id: data.user.id, // links profile to auth user ID
+    const { user } = data;
+    const { error: insertError } = await supabase.from("users").insert({
+      user_id: user.id, // links profile to auth user ID
       userName,
     });
+
+    if (insertError) {
+      console.error("Error inserting user into 'users' table:", insertError);
+      throw new Error("Failed to add user to profile");
+    }
   }
 }
 
@@ -36,7 +42,7 @@ export async function logIn({ email, password }: any) {
     const { data: profile } = await supabase
       .from("users")
       .select("userName")
-      .eq("id", user.id)
+      .eq("user_id", user.id)
       .single();
 
     return {

@@ -4,17 +4,16 @@ import { useEffect, useRef } from "react";
 import { useAppSelector } from "../_lib/Store/Store";
 import { useSearchContext } from "../context/SearchProvider";
 import AutoComplete from "./AutoComplete";
-interface SearchDivProps {}
+import { Trie } from "../_lib/Trie";
+interface SearchDivProps {
+  tasksArr: { taskName: string; taskId: number }[];
+}
 
-function SearchDiv({}: SearchDivProps) {
+function SearchDiv({ tasksArr }: SearchDivProps) {
   const { showAutoComplete, setShowAutoComplete, searchVal, setSearchVal } =
     useSearchContext();
-  // const { 0: showAutoComplete, 1: setShowAutoComplete } = React.useState(false);
-  // const { 0: searchVal, 1: setSearchVal } = React.useState("");
-  const { trie } = useAppSelector((store) => store.tasks);
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  let tasksArr = trie.search(searchVal);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const inputElement = inputRef.current;
@@ -40,7 +39,7 @@ function SearchDiv({}: SearchDivProps) {
   }, [setShowAutoComplete]);
 
   return (
-    <div className="taskSearchDiv flex relative items-center gap-[2px] sm:gap-1 py-1 sm:text-base text-sm bg-white rounded-sm w-full sm:w-fit flex-nowrap ring-1 ring-neutral-400">
+    <div className="taskSearchDiv flex relative items-center gap-[2px] z-10 sm:gap-1 py-1 sm:text-base text-sm bg-white rounded-sm w-full sm:w-fit flex-nowrap ring-1 ring-neutral-400">
       <input
         value={searchVal}
         ref={inputRef}

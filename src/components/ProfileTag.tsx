@@ -1,15 +1,15 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import React, { useCallback, useEffect } from "react";
+import Avatar from "@mui/material/Avatar";
+import React, { useEffect } from "react";
 import { useAppSelector } from "../_lib/Store/Store";
 import ProfileSection from "./ProfileSection";
-
 interface ProfileTagProps {}
 
 function ProfileTag({}: ProfileTagProps) {
-  const { image } = useAppSelector((store) => store.user);
   const { 0: showProfileSecion, 1: setShowProfileSecion } =
     React.useState(false);
   const { 0: isReverse, 1: setIsReverse } = React.useState(false);
+  const { userName } = useAppSelector((store) => store.user);
 
   useEffect(() => {
     let timeOut: any = null;
@@ -44,17 +44,13 @@ function ProfileTag({}: ProfileTagProps) {
   }, [showProfileSecion, setShowProfileSecion, setIsReverse]);
 
   return (
-    <button className="relative flex gap-2 rounded-full cursor-pointer profileBtn">
+    <div className="relative flex items-center gap-1 p-1 bg-white rounded-full cursor-pointer profileBtn">
       <div className="overflow-hidden rounded-full">
-        <img
-          src={image}
-          alt="profile image "
-          className="w-5 h-5 rounded-full"
-        />
+        <Avatar>{userName[0]}</Avatar>
       </div>
       <KeyboardArrowDownIcon fontSize="small" />
       {showProfileSecion && <ProfileSection isReverse={isReverse} />}
-    </button>
+    </div>
   );
 }
 

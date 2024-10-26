@@ -13,13 +13,12 @@ function SignUp({}: SignUpProps) {
   const navigate = useNavigate();
 
   async function signUpFunc(data: any) {
-    console.log(data);
     const loading = toast.loading("Creating account...");
     try {
       setIsLoading(true);
       await signUp(data);
       toast.dismiss(loading);
-      toast.success("Please, check you mail !");
+      toast.success("Account created successfully !");
       navigate("/login");
     } catch (error) {
       toast.dismiss(loading);

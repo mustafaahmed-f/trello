@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppSelector } from "../../_lib/Store/Store";
 import SearchDiv from "../SearchDiv";
 import { Link } from "react-router-dom";
 import ProfileTag from "../ProfileTag";
+import { Trie } from "../../_lib/Trie";
+import { useSearchContext } from "../../context/SearchProvider";
 
 interface HeaderProps {}
 
 function Header({}: HeaderProps) {
   const { isAuth } = useAppSelector((store) => store.user);
+  const { tasks } = useAppSelector((store) => store.tasks);
+  const { searchVal } = useSearchContext();
+  let tasksArr: any[] = [];
+  let trie = new Trie();
+  tasks.forEach((task) => {
+    trie.addTask(task.title, task.id);
+  });
+
+  tasksArr = trie.search(searchVal);
+
   return (
     <div className="flex flex-col items-center justify-between px-5 py-3 max-sm:gap-4 sm:flex-row flex-nowrap bg-primary-200">
       <div className="flex items-center justify-between w-full">
@@ -30,11 +42,11 @@ function Header({}: HeaderProps) {
       </div>
       {isAuth && (
         <div className="block w-full sm:hidden">
-          <SearchDiv />
+          <SearchDiv tasksArr={tasksArr} />
         </div>
       )}
       <div className="items-center hidden gap-2 sm:flex">
-        {isAuth && <SearchDiv />}
+        {isAuth && <SearchDiv tasksArr={tasksArr} />}
         {isAuth ? (
           <ProfileTag />
         ) : (
