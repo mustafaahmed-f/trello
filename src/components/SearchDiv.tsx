@@ -14,19 +14,6 @@ function SearchDiv({ tasksArr }: SearchDivProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const inputElement = inputRef.current;
-    function handleSearch(e: KeyboardEvent) {
-      if (e.key === "Enter" && searchVal && tasksArr.length > 0) {
-        //TODO : open view task dialog
-      }
-    }
-
-    inputElement?.addEventListener("keydown", handleSearch);
-
-    return () => inputElement?.removeEventListener("keydown", handleSearch);
-  }, [tasksArr, searchVal]);
-
-  useEffect(() => {
     function handleCloseAutoComplete(e: any) {
       if (!e.target.closest(".taskSearchDiv")) {
         setShowAutoComplete(false);

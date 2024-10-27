@@ -21,9 +21,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function ViewTask({
   task,
   setHideDropList,
+  children,
 }: {
   task: any;
   setHideDropList: React.Dispatch<React.SetStateAction<boolean>>;
+  children?: React.ReactNode;
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -39,12 +41,12 @@ export default function ViewTask({
   return (
     <React.Fragment>
       <Button
-        variant="outlined"
+        variant={children ? "text" : "outlined"}
         onClick={handleClickOpen}
         className="w-full text-black"
         color="primary"
       >
-        View
+        {children ?? "View"}
       </Button>
       <BootstrapDialog
         onClose={handleClose}

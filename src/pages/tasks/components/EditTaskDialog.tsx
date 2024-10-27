@@ -72,7 +72,7 @@ function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
   };
 
   const fields = Object.keys(newTaskSchema.fields) as (keyof FormFields)[];
-
+  console.log(isImageUploaded);
   return (
     <React.Fragment>
       <Button
