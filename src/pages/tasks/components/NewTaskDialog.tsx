@@ -15,6 +15,7 @@ import { addTaskSlice } from "../../../_lib/Store/Slices/TasksSlice";
 import { useAppDispatch } from "../../../_lib/Store/Store";
 import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
 import DialogTextField from "./DialogTextField";
+import ImageUploader from "../../../components/ImageUploader";
 
 interface NewTaskDialogProps {}
 
@@ -28,14 +29,17 @@ export interface FormFields {
 
 function NewTaskDialog({}: NewTaskDialogProps) {
   const { 0: isLoading, 1: setIsLoading } = React.useState(false);
+  const { 0: isImageUploaded, 1: setIsImageUploaded } = React.useState(false);
   const schema = newTaskSchema;
   const dipatch = useAppDispatch();
   const [open, setOpen] = React.useState(false);
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
+    setValue,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -43,7 +47,7 @@ function NewTaskDialog({}: NewTaskDialogProps) {
     criteriaMode: "firstError",
   });
 
-  console.log(errors);
+  console.log(watch("image"));
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -74,7 +78,7 @@ function NewTaskDialog({}: NewTaskDialogProps) {
             <DialogContentText>
               Add you task by filling all the following fields :
             </DialogContentText>
-            {fields.map((field, i) => (
+            {fields.slice(0, 4).map((field, i) => (
               <DialogTextField
                 key={i}
                 field={field}
@@ -82,6 +86,13 @@ function NewTaskDialog({}: NewTaskDialogProps) {
                 register={register}
               />
             ))}
+            <div className="my-3">
+              <ImageUploader
+                onUploadComplete={(uploaded) => setIsImageUploaded(uploaded)}
+                register={register}
+                setValue={setValue}
+              />
+            </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} type="button" disabled={isLoading}>
@@ -89,7 +100,9 @@ function NewTaskDialog({}: NewTaskDialogProps) {
             </Button>
             <Button
               type="submit"
-              disabled={isLoading || Object.keys(errors).length ? true : false}
+              disabled={
+                isLoading || !isValid || !isImageUploaded ? true : false
+              }
             >
               Add
             </Button>

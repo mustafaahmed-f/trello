@@ -21,7 +21,7 @@ const generalValidations = {
     .string()
     .oneOf([yup.ref("password")], "Password should match"),
 
-  Image: yup.string().url(),
+  Image: yup.string(),
   Title: yup.string().min(3, "Min. length 3").max(20, "Max. length 20"),
   Description: yup.string().min(3, "Min. length 3").max(100, "Max. length 100"),
   Priority: yup

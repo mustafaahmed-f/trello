@@ -26,7 +26,6 @@ export default function ViewTask({
   setHideDropList: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [open, setOpen] = React.useState(false);
-  console.log(task);
 
   const handleClickOpen = () => {
     setOpen(true);

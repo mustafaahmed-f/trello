@@ -1,5 +1,5 @@
 import supabase from "../supabase";
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+
 export async function getTasks() {
   const {
     data: { user },
@@ -87,36 +87,36 @@ export async function updateTask(id: number, updatedFields: any) {
   return data;
 }
 
-export const deleteImage = async (path: any) => {
-  const { error } = await supabase.storage
-    .from("your-bucket-name")
-    .remove([path]);
-  if (error) {
-    throw new Error(`Error deleting image: ${error.message}`);
-  }
-};
+// export const deleteImage = async (path: any) => {
+//   const { error } = await supabase.storage
+//     .from("your-bucket-name")
+//     .remove([path]);
+//   if (error) {
+//     throw new Error(`Error deleting image: ${error.message}`);
+//   }
+// };
 
-export const uploadImage = async (file: any) => {
-  const filePath = `${file.name}`; // or any desired path
-  const { error } = await supabase.storage
-    .from("your-bucket-name")
-    .upload(filePath, file);
-  if (error) {
-    throw new Error(`Error uploading image: ${error.message}`);
-  }
+// export const uploadImage = async (file: any) => {
+//   const filePath = `${file.name}`; // or any desired path
+//   const { error } = await supabase.storage
+//     .from("your-bucket-name")
+//     .upload(filePath, file);
+//   if (error) {
+//     throw new Error(`Error uploading image: ${error.message}`);
+//   }
 
-  // Generate public URL
-  const publicURL = `${supabaseUrl}/storage/v1/object/public/Trello%20tasks/${filePath}`;
+//   // Generate public URL
+//   const publicURL = `${supabaseUrl}/storage/v1/object/public/Trello%20tasks/${filePath}`;
 
-  return publicURL; // Return the public URL of the uploaded image
-};
+//   return publicURL; // Return the public URL of the uploaded image
+// };
 
-export const updateImage = async (previousImagePath: any, newFile: any) => {
-  // Step 1: Delete the previous image
-  await deleteImage(previousImagePath);
+// export const updateImage = async (previousImagePath: any, newFile: any) => {
+//   // Step 1: Delete the previous image
+//   await deleteImage(previousImagePath);
 
-  // Step 2: Upload the new image
-  const newImageUrl = await uploadImage(newFile);
+//   // Step 2: Upload the new image
+//   const newImageUrl = await uploadImage(newFile);
 
-  return newImageUrl; // Return the new image URL
-};
+//   return newImageUrl; // Return the new image URL
+// };

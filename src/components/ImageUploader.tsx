@@ -1,7 +1,15 @@
 import { useState } from "react";
 import supabase from "../_lib/supabase";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { FormFields } from "../pages/tasks/components/NewTaskDialog";
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+interface props {
+  register: UseFormRegister<FormFields>;
+  setValue: UseFormSetValue<FormFields>;
+  onUploadComplete: (uploaded: boolean) => void;
+}
 
-const ImageUploader = () => {
+const ImageUploader = ({ register, setValue, onUploadComplete }: props) => {
   const [file, setFile] = useState<null | any>(null);
   const [message, setMessage] = useState("");
 
@@ -25,15 +33,30 @@ const ImageUploader = () => {
     if (error) {
       setMessage(`Upload failed: ${error.message}`);
     } else {
+      const publicURL = `${supabaseUrl}/storage/v1/object/public/Trello%20tasks/${file.name}`;
+      setValue("image", publicURL); // Set the public URL in the form
+      console.log(publicURL);
       setMessage("Upload successful!");
+      onUploadComplete(true);
     }
   };
 
   return (
     <div className="flex flex-col gap-2">
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload Image</button>
-      {message && <p>{message}</p>}
+      <input
+        type="file"
+        {...register("image", {
+          onChange: (e) => handleFileChange(e),
+        })}
+      />
+      <button
+        onClick={handleUpload}
+        className="hover:text-teal-400"
+        type="button"
+      >
+        Upload Image
+      </button>
+      {message && <p className="text-green-400">{message}</p>}
     </div>
   );
 };
