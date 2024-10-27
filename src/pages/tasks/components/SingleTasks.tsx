@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import OptionsDropList from "./OptionsDropList";
 
 interface SingleTasksProps {
@@ -7,24 +7,24 @@ interface SingleTasksProps {
 
 function SingleTasks({ task }: SingleTasksProps) {
   const { 0: showDropList, 1: setShowDropList } = React.useState(false);
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const showOptionsBtn = document.querySelector(`.showOptions-${task.id}`);
-    function handleClick(e: any) {
-      const optionsDropList = document.querySelector(".optionsDropList");
-      if (e.target.closest(`.showOptions-${task.id}`)) {
-        setShowDropList(!showDropList);
-      } else if (optionsDropList && optionsDropList.contains(e.target)) {
-        return;
-      } else if (showDropList && !optionsDropList?.contains(e.target)) {
-        setShowDropList(!showDropList);
+    function handleClick(e: MouseEvent) {
+      if (buttonRef.current && buttonRef.current.contains(e.target as Node)) {
+        setShowDropList((prev) => !prev); // Toggle dropdown
+      } else if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setShowDropList(false); // Close dropdown if clicking outside
       }
     }
-    showOptionsBtn?.addEventListener("click", handleClick);
-    return () => {
-      showOptionsBtn?.removeEventListener("click", handleClick);
-    };
-  }, [showDropList, setShowDropList, task.id]);
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [setShowDropList]);
 
   return (
     <div className="flex-col items-center gap-2 p-3 bg-white rounded-lg">
@@ -40,11 +40,16 @@ function SingleTasks({ task }: SingleTasksProps) {
         </p>
         <div className="relative">
           <div
+            ref={buttonRef}
             className={`w-4 h-4 cursor-pointer rounded-full showOptions-${task.id}`}
           >
             <img src="/src/assets/dots.svg" alt="dots" />
           </div>
-          {showDropList && <OptionsDropList taskId={task.id} />}
+          {showDropList && (
+            <div ref={dropdownRef}>
+              <OptionsDropList taskId={task.id} />
+            </div>
+          )}
         </div>
       </div>
       <h3 className="text-xl font-semibold">{task.title}</h3>
