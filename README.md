@@ -19,7 +19,6 @@
       <p>
         Trello is a cutting-edge drone control system built using ReactJS and TypeScript. This innovative project enables users to remotely control and interact with their tasks, leveraging the power of web technologies to provide a seamless and intuitive experience.
       </p>
-
       <h3 style="margin-top: 4px">==> Contact me :</h3>
       <p>
         Email :
@@ -50,7 +49,6 @@
       </ul>
     </section>
     <hr />
-
   <section id="Deployment">
       <h2># Deployment</h2>
       <p>
