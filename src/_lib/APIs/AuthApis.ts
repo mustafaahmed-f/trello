@@ -38,18 +38,16 @@ export async function logIn({ email, password }: any) {
     throw new Error(error.message);
   }
 
-  if (user) {
-    const { data: profile } = await supabase
-      .from("users")
-      .select("userName")
-      .eq("user_id", user.id)
-      .single();
+  const { data: profile } = await supabase
+    .from("users")
+    .select("userName")
+    .eq("user_id", user?.id)
+    .single();
 
-    return {
-      email: user.email,
-      userName: profile?.userName || null,
-    };
-  }
+  return {
+    email: user?.email,
+    userName: profile?.userName || null,
+  };
 }
 
 export async function logout() {

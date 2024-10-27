@@ -1,9 +1,9 @@
 import supabase from "../supabase";
-const {
-  data: { user },
-} = await supabase.auth.getUser();
 
 export async function getTasks() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const { data, error } = await supabase
     .from("tasks")
     .select("*")
@@ -17,6 +17,9 @@ export async function getTasks() {
 }
 
 export async function getSingleTask(id: number) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const { data, error } = await supabase
     .from("tasks")
     .select("*")
@@ -33,6 +36,9 @@ export async function getSingleTask(id: number) {
 }
 
 export async function addTask(task: any) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const { data, error } = await supabase
     .from("tasks")
     .insert([{ ...task, created_by: user?.id }]);
@@ -46,6 +52,9 @@ export async function addTask(task: any) {
 }
 
 export async function deleteTask(id: number) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const { data, error } = await supabase
     .from("tasks")
     .delete()
@@ -61,6 +70,9 @@ export async function deleteTask(id: number) {
 }
 
 export async function updateTask(id: number, updatedFields: any) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const { data, error } = await supabase
     .from("tasks")
     .update(updatedFields)
