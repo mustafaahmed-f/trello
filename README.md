@@ -3,7 +3,7 @@
   <head> </head>
   <body>
     <h1 style="text-align: center">
-      Tello application created using react.js + typescript
+      Trello application created using react.js + typescript
     </h1>
     <h2>Table of contents</h2>
     <hr />

@@ -29,7 +29,7 @@ function SingleTasks({ task }: SingleTasksProps) {
   }, [setShowDropList]);
 
   return (
-    <div className="relative flex-col items-center gap-2 p-3 bg-white rounded-lg">
+    <div className="relative flex flex-col gap-4 p-3 bg-white rounded-lg">
       <div className="flex items-center justify-between">
         <p
           className={`p-1 rounded-md bg-state ${
@@ -63,7 +63,7 @@ function SingleTasks({ task }: SingleTasksProps) {
       <h3 className="text-xl font-semibold">{task.title}</h3>
       <p>
         {task?.description?.substring(0, 25)}{" "}
-        {task?.discription?.length > 25 ? "..." : ""}
+        {task?.description?.length > 25 ? "..." : ""}
       </p>
     </div>
   );

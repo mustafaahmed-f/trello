@@ -47,7 +47,7 @@ function Tasks({}: TasksProps) {
       <div className="flex gap-3 mb-3">
         <NewTaskDialog />
       </div>
-      <div className="flex flex-col items-center justify-between w-full gap-3 sm:flex-row">
+      <div className="max-sm:flex max-sm:flex-col items-center justify-between w-full gap-3 sm:grid sm:grid-cols-[1fr_1fr_1fr]">
         <TaskList tasks={toDoTasks} state="To Do" />
         <TaskList tasks={inProgressTasks} state="On Progress" />
         <TaskList tasks={doneTasks} state="Done" />
