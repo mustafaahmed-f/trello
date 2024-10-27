@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import OptionsDropList from "./OptionsDropList";
-
+import dotsImage from "/src/assets/dots.svg";
 interface SingleTasksProps {
   task: any;
 }
@@ -46,7 +46,7 @@ function SingleTasks({ task }: SingleTasksProps) {
             ref={buttonRef}
             className={`w-4 h-4 cursor-pointer rounded-full showOptions-${task.id}`}
           >
-            <img src="/src/assets/dots.svg" alt="dots" />
+            <img src={dotsImage} alt="dots" />
           </div>
           {showDropList && (
             <div
