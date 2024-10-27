@@ -7,6 +7,8 @@ interface SingleTasksProps {
 
 function SingleTasks({ task }: SingleTasksProps) {
   const { 0: showDropList, 1: setShowDropList } = React.useState(false);
+  //// This is used to make opacity 0 of drop list when clicking on any option.
+  const { 0: hideDropList, 1: setHideDropList } = React.useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +29,7 @@ function SingleTasks({ task }: SingleTasksProps) {
   }, [setShowDropList]);
 
   return (
-    <div className="flex-col items-center gap-2 p-3 bg-white rounded-lg">
+    <div className="relative flex-col items-center gap-2 p-3 bg-white rounded-lg">
       <div className="flex items-center justify-between">
         <p
           className={`p-1 rounded-md bg-state ${
@@ -46,8 +48,14 @@ function SingleTasks({ task }: SingleTasksProps) {
             <img src="/src/assets/dots.svg" alt="dots" />
           </div>
           {showDropList && (
-            <div ref={dropdownRef}>
-              <OptionsDropList taskId={task.id} />
+            <div
+              ref={dropdownRef}
+              className={hideDropList ? "opacity-0" : "opacity-100"}
+            >
+              <OptionsDropList
+                taskId={task.id}
+                setHideDropList={setHideDropList}
+              />
             </div>
           )}
         </div>

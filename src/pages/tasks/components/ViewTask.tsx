@@ -18,14 +18,22 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ViewTask({ task }: { task: any }) {
+export default function ViewTask({
+  task,
+  setHideDropList,
+}: {
+  task: any;
+  setHideDropList: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
+    setHideDropList(true);
   };
   const handleClose = () => {
     setOpen(false);
+    setHideDropList(false);
   };
 
   return (
@@ -42,6 +50,7 @@ export default function ViewTask({ task }: { task: any }) {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        className="min-w-28"
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           {task.title} ({task.state})

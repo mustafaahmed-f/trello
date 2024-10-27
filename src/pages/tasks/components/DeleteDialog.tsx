@@ -21,16 +21,24 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DeleteDialog({ taskId }: { taskId: number }) {
+export default function DeleteDialog({
+  taskId,
+  setHideDropList,
+}: {
+  taskId: number;
+  setHideDropList: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [open, setOpen] = React.useState(false);
   const { 0: isLoading, 1: setIsLoading } = React.useState(false);
   const dispatch = useAppDispatch();
   const handleClickOpen = () => {
     setOpen(true);
+    setHideDropList(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setHideDropList(false);
   };
 
   const handleDeleteTask = async () => {
@@ -48,6 +56,7 @@ export default function DeleteDialog({ taskId }: { taskId: number }) {
     <React.Fragment>
       <Button
         variant="contained"
+        color="error"
         className="px-3 py-2 w-fit"
         onClick={handleClickOpen}
       >

@@ -19,6 +19,7 @@ import EditTaskTextDialog from "./EditTaskTextDialog";
 
 interface EditTaskDialogProps {
   taskId: number;
+  setHideDropList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface FormFields {
@@ -29,7 +30,7 @@ export interface FormFields {
   image: string;
 }
 
-function EditTaskDialog({ taskId }: EditTaskDialogProps) {
+function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
   const { 0: isLoading, 1: setIsLoading } = React.useState(false);
   const { tasks } = useAppSelector((store) => store.tasks);
   const dipatch = useAppDispatch();
@@ -47,8 +48,14 @@ function EditTaskDialog({ taskId }: EditTaskDialogProps) {
     criteriaMode: "firstError",
   });
 
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+    setHideDropList(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setHideDropList(false);
+  };
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -66,8 +73,8 @@ function EditTaskDialog({ taskId }: EditTaskDialogProps) {
   return (
     <React.Fragment>
       <Button
-        variant="contained"
-        className="px-3 py-2 w-fit"
+        variant="outlined"
+        className="w-full px-3 py-2"
         onClick={handleClickOpen}
       >
         Edit

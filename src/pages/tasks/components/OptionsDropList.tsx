@@ -5,16 +5,17 @@ import ViewTask from "./ViewTask";
 
 interface OptionsDropListProps {
   taskId: number;
+  setHideDropList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function OptionsDropList({ taskId }: OptionsDropListProps) {
+function OptionsDropList({ taskId, setHideDropList }: OptionsDropListProps) {
   const { tasks } = useAppSelector((store) => store.tasks);
   const task = tasks.find((task) => task.id === taskId);
   return (
-    <div className="optionsDropList bg-gray-300 absolute z-50 translate-y-[104%] bottom-0 right-0 rounded-md overflow-hidden">
-      <ViewTask task={task} />
-      <EditTaskDialog taskId={taskId} />
-      <DeleteDialog taskId={taskId} />
+    <div className="optionsDropList bg-gray-200 absolute z-[9999999] translate-y-[104%] bottom-0 right-0 rounded-md overflow-hidden">
+      <ViewTask setHideDropList={setHideDropList} task={task} />
+      <EditTaskDialog setHideDropList={setHideDropList} taskId={taskId} />
+      <DeleteDialog setHideDropList={setHideDropList} taskId={taskId} />
     </div>
   );
 }

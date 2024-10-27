@@ -7,7 +7,7 @@ interface TaskListProps {
 
 function TaskList({ tasks, state }: TaskListProps) {
   return (
-    <div className="flex-grow px-2 py-3 overflow-y-scroll rounded-lg taskList max-sm:w-full bg-primary-200 min-h-64 max-h-96">
+    <div className="flex-grow px-2 py-3 overflow-y-scroll rounded-lg taskList max-sm:w-full bg-primary-200 min-h-64">
       <div className="flex items-center gap-2 mb-3">
         <span
           className={` w-1 rounded-full h-1 ${
