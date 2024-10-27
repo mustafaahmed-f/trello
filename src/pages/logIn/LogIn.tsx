@@ -8,12 +8,15 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { logIn } from "../../_lib/APIs/AuthApis";
+import { useAppDispatch } from "../../_lib/Store/Store";
+import { setUser } from "../../_lib/Store/Slices/UserSlice";
 interface LogInProps {}
 
 function LogIn({}: LogInProps) {
   const { 0: isLoading, 1: setIsLoading } = useState(false);
   const schema = logInSchema;
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   async function logInFunc(data: any) {
     const loading = toast.loading("Logging ..");
     try {
@@ -21,6 +24,7 @@ function LogIn({}: LogInProps) {
       await logIn(data);
       toast.dismiss(loading);
       toast.success("logged in successfully !");
+      dispatch(setUser({ email: data.email, userName: data.userName }));
       navigate("/tasks");
     } catch (error) {
       toast.dismiss(loading);

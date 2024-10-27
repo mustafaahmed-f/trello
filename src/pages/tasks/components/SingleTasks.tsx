@@ -39,11 +39,11 @@ function SingleTasks({ task }: SingleTasksProps) {
           {task.priority}
         </p>
         <div className="relative">
-          <img
-            src="/src/assets/dots.svg"
-            alt="dots"
-            className={`cursor-pointer showOptions-${task.id}`}
-          />
+          <div
+            className={`w-4 h-4 cursor-pointer rounded-full showOptions-${task.id}`}
+          >
+            <img src="/src/assets/dots.svg" alt="dots" />
+          </div>
           {showDropList && <OptionsDropList taskId={task.id} />}
         </div>
       </div>
