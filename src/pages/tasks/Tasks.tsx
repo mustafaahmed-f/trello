@@ -39,7 +39,7 @@ function Tasks({}: TasksProps) {
   const toDoTasks = tasks.filter((task) => task.state === "todo");
   const inProgressTasks = tasks.filter((task) => task.state === "doing");
   const doneTasks = tasks.filter((task) => task.state === "done");
-  console.log(toDoTasks);
+  // console.log(toDoTasks);
   return isLoading ? (
     <Loader />
   ) : (

@@ -9,6 +9,7 @@ interface AuthFormProps {
   purpose: string;
   extraField: string;
   extraLink: string;
+  defaultValues?: { email: string; password: string };
   isLoading: boolean;
   fields: { field: string; label: string }[];
   submitFunction: (data: any) => void;
@@ -21,6 +22,7 @@ function AuthForm({
   extraLink,
   fields,
   submitFunction,
+  defaultValues,
   isLoading = false,
 }: AuthFormProps) {
   const {
@@ -47,6 +49,11 @@ function AuthForm({
           register={register}
           label={element["label"]}
           key={index}
+          defaultValue={
+            purpose === "Sign in" && defaultValues
+              ? defaultValues[element["field"] as keyof typeof defaultValues]
+              : null
+          }
         />
       ))}
 

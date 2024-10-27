@@ -26,7 +26,7 @@ function Header({}: HeaderProps) {
           to={isAuth ? "/tasks" : "/"}
           className="flex items-center gap-2 text-3xl font-bold sm:text-4xl logo text-start"
         >
-          <img src="public/icons8-task-64.png" />
+          <img src="https://trellobymustafa.netlify.app/icons8-task-64.png" />
           <p>Trello</p>
         </Link>
         <div className="block sm:hidden">

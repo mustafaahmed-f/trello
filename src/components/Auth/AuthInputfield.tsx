@@ -4,6 +4,7 @@ interface AuthInputfieldProps {
   errors: any;
   field: string;
   label: string;
+  defaultValue?: string | null;
   register: (s: string) => {};
 }
 
@@ -12,6 +13,7 @@ function AuthInputfield({
   field,
   label,
   register,
+  defaultValue,
 }: AuthInputfieldProps) {
   const [showPass, setShowPass] = React.useState(false);
   return (
@@ -20,6 +22,7 @@ function AuthInputfield({
       <div className="flex flex-col flex-grow w-full">
         <input
           autoComplete="off"
+          defaultValue={defaultValue ?? ""}
           id={`${field}`}
           {...register(`${field}`)}
           type={

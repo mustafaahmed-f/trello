@@ -42,6 +42,9 @@ function EditTaskDialog({ taskId }: EditTaskDialogProps) {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema, { stripUnknown: true }),
+    mode: "onChange",
+    reValidateMode: "onChange",
+    criteriaMode: "firstError",
   });
 
   const handleClickOpen = () => setOpen(true);
@@ -51,7 +54,7 @@ function EditTaskDialog({ taskId }: EditTaskDialogProps) {
     setIsLoading(true);
     const loading = toast.loading("Updating task");
     await updateTask(taskId, data);
-    dipatch(updateTaskSlice(data));
+    dipatch(updateTaskSlice({ ...data, id: taskId }));
     toast.dismiss(loading);
     toast.success("Task updated successfully !");
     setIsLoading(false);
@@ -90,7 +93,10 @@ function EditTaskDialog({ taskId }: EditTaskDialogProps) {
             <Button onClick={handleClose} type="button" disabled={isLoading}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button
+              type="submit"
+              disabled={isLoading || Object.keys(errors).length ? true : false}
+            >
               Edit
             </Button>
           </DialogActions>

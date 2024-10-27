@@ -73,6 +73,10 @@ function LogIn({}: LogInProps) {
             extraField={"Dont' have acccount ?"}
             extraLink="/signup"
             submitFunction={logInFunc}
+            defaultValues={{
+              email: "mostafafikry97@gmail.com",
+              password: "Aaaaaa@123",
+            }}
           />
         </div>
       </div>

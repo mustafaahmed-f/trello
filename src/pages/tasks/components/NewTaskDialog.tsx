@@ -35,9 +35,15 @@ function NewTaskDialog({}: NewTaskDialogProps) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
+    mode: "onChange",
+    reValidateMode: "onChange",
+    criteriaMode: "firstError",
   });
+
+  console.log(errors);
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -50,6 +56,7 @@ function NewTaskDialog({}: NewTaskDialogProps) {
     toast.dismiss(loading);
     toast.success("Task added successfully !");
     setIsLoading(false);
+    reset();
     handleClose();
   };
 
@@ -57,7 +64,7 @@ function NewTaskDialog({}: NewTaskDialogProps) {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen}>
         Add task
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -67,8 +74,9 @@ function NewTaskDialog({}: NewTaskDialogProps) {
             <DialogContentText>
               Add you task by filling all the following fields :
             </DialogContentText>
-            {fields.map((field) => (
+            {fields.map((field, i) => (
               <DialogTextField
+                key={i}
                 field={field}
                 errors={errors}
                 register={register}
@@ -79,7 +87,10 @@ function NewTaskDialog({}: NewTaskDialogProps) {
             <Button onClick={handleClose} type="button" disabled={isLoading}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button
+              type="submit"
+              disabled={isLoading || Object.keys(errors).length ? true : false}
+            >
               Add
             </Button>
           </DialogActions>
