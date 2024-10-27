@@ -26,6 +26,7 @@ export default function ViewTask({
   setHideDropList: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [open, setOpen] = React.useState(false);
+  console.log(task);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,7 +51,7 @@ export default function ViewTask({
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        className="min-w-28"
+        fullWidth
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           {task.title} ({task.state})
@@ -67,8 +68,8 @@ export default function ViewTask({
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>
-          <Typography gutterBottom>{task.discription}</Typography>
+        <DialogContent dividers className="flex flex-col gap-6">
+          <Typography gutterBottom>{task.description}</Typography>
 
           <Typography gutterBottom>
             <img src={task.image} />
