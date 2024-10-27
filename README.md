@@ -1,50 +1,67 @@
-# React + TypeScript + Vite
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <h1 style="text-align: center">
+      Tello application created using react.js + typescript
+    </h1>
+    <h2>Table of contents</h2>
+    <hr />
+    <ul id="table-contents">
+      <li><a href="#About">About</a></li>
+      <li><a href="#Technologies">Technologies</a></li>
+      <li><a href="#Features">Features</a></li>
+      <li><a href="#Deployment">Deployment</a></li>
+    </ul>
+    <hr />
+    <section id="About">
+      <h2># About</h2>
+      <p>
+        Trello is a cutting-edge drone control system built using ReactJS and TypeScript. This innovative project enables users to remotely control and interact with their tasks, leveraging the power of web technologies to provide a seamless and intuitive experience.
+      </p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+      <h3 style="margin-top: 4px">==> Contact me :</h3>
+      <p>
+        Email :
+        <a href="mailto:mostafafikry97@gmail.com">mostafafikry97@gmail.com</a>
+      </p>
+    </section>
+    <hr />
+    <section id="Technologies">
+      <h2># Technologies</h2>
+      <ul>
+        <li>ReactJs</li>
+        <li>TypeScript</li>
+        <li>Supabase</li>
+        <li>React-router-dom</li>
+        <li>Tailwind CSS</li>
+        <li>Cloudinary</li>
+        <li>BnB drag and drop library</li>
+        <li>React form hook + yup</li>
+      </ul>
+    </section>
+    <hr />
+    <section id="Features">
+      <h2># Features</h2>
+      <ul>
+        <li>Authentication using supabase</li>
+        <li>Get full control on user's tasks</li>
+        <li>Drag and drop feature ( kanban board )</li>
+      </ul>
+    </section>
+    <hr />
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+  <section id="Deployment">
+      <h2># Deployment</h2>
+      <p>
+        Deployed on Netlify synchronized with github repository
+      </p>
+      <p>
+        Main Link :
+        <a href="https://trellobymustafa.netlify.app/"
+          >https://trellobymustafa.netlify.app/</a
+        >
+      </p>
+    </section>
+  </body>
+</html>
