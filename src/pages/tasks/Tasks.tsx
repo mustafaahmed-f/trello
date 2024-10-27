@@ -6,10 +6,24 @@ import { checkUserSession } from "../../_lib/checkUserSession";
 import Loader from "../../components/Loader";
 import NewTaskDialog from "./components/NewTaskDialog";
 import TaskList from "./components/TaskList";
+import { Button } from "@mui/material";
+import FilterBtn from "./components/FilterBtn";
 interface TasksProps {}
 
 function Tasks({}: TasksProps) {
   const { 0: isLoading, 1: setIsLoading } = useState(true);
+  const { 0: open, 1: setOpen } = useState(false);
+  const { 0: selectedValue, 1: setSelectedValue } = useState("");
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value: string) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
+
   const user = useAppSelector((store) => store.user);
   const dipatch = useAppDispatch();
   const { tasks } = useAppSelector((store) => store.tasks);
@@ -36,9 +50,14 @@ function Tasks({}: TasksProps) {
     tasks();
   }, [dipatch, setIsLoading]);
 
-  const toDoTasks = tasks.filter((task) => task.state === "todo");
-  const inProgressTasks = tasks.filter((task) => task.state === "doing");
-  const doneTasks = tasks.filter((task) => task.state === "done");
+  let finalTasks =
+    selectedValue === "" || selectedValue === "none"
+      ? tasks
+      : tasks.filter((task) => task.priority === selectedValue);
+
+  const toDoTasks = finalTasks.filter((task) => task.state === "todo");
+  const inProgressTasks = finalTasks.filter((task) => task.state === "doing");
+  const doneTasks = finalTasks.filter((task) => task.state === "done");
   // console.log(toDoTasks);
   return isLoading ? (
     <Loader />
@@ -46,6 +65,14 @@ function Tasks({}: TasksProps) {
     <>
       <div className="flex gap-3 mb-3">
         <NewTaskDialog />
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Filter
+        </Button>
+        <FilterBtn
+          selectedValue={selectedValue}
+          open={open}
+          onClose={handleClose}
+        />
       </div>
       <div className="max-sm:flex max-sm:flex-col items-center justify-between w-full gap-3 sm:grid sm:grid-cols-[1fr_1fr_1fr]">
         <TaskList tasks={toDoTasks} state="To Do" />
