@@ -18,7 +18,8 @@ function SingleTasks({ task }: SingleTasksProps) {
         setShowDropList((prev) => !prev); // Toggle dropdown
       } else if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
+        !dropdownRef.current.contains(e.target as Node) &&
+        !hideDropList
       ) {
         setShowDropList(false); // Close dropdown if clicking outside
       }
@@ -26,7 +27,7 @@ function SingleTasks({ task }: SingleTasksProps) {
 
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
-  }, [setShowDropList]);
+  }, [setShowDropList, hideDropList]);
 
   return (
     <div className="relative flex flex-col gap-4 p-3 bg-white rounded-lg">

@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "../../../_lib/Store/Store";
 import { editTaskSchema } from "../../../_lib/validations/editTaskValidation";
 import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
 import EditTaskTextDialog from "./EditTaskTextDialog";
+import ImageUploader from "../../../components/ImageUploader";
 
 interface EditTaskDialogProps {
   taskId: number;
@@ -32,6 +33,7 @@ export interface FormFields {
 
 function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
   const { 0: isLoading, 1: setIsLoading } = React.useState(false);
+  const { 0: isImageUploaded, 1: setIsImageUploaded } = React.useState(false);
   const { tasks } = useAppSelector((store) => store.tasks);
   const dipatch = useAppDispatch();
   const currentTask = tasks.find((task) => task.id === taskId);
@@ -40,7 +42,8 @@ function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
+    setValue,
   } = useForm({
     resolver: yupResolver(schema, { stripUnknown: true }),
     mode: "onChange",
@@ -86,7 +89,7 @@ function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
             <DialogContentText>
               Add you task by filling all the following fields :
             </DialogContentText>
-            {fields.map((field, i) => (
+            {fields.slice(0, 4).map((field, i) => (
               <EditTaskTextDialog
                 key={i}
                 currentTask={currentTask}
@@ -95,6 +98,13 @@ function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
                 register={register}
               />
             ))}
+            <div className="my-3">
+              <ImageUploader
+                onUploadComplete={(uploaded) => setIsImageUploaded(uploaded)}
+                register={register}
+                setValue={setValue}
+              />
+            </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} type="button" disabled={isLoading}>
@@ -102,7 +112,7 @@ function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
             </Button>
             <Button
               type="submit"
-              disabled={isLoading || Object.keys(errors).length ? true : false}
+              disabled={isLoading || !isValid ? true : false}
             >
               Edit
             </Button>

@@ -39,15 +39,12 @@ function NewTaskDialog({}: NewTaskDialogProps) {
     formState: { errors, isValid },
     reset,
     setValue,
-    watch,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
     reValidateMode: "onChange",
     criteriaMode: "firstError",
   });
-
-  console.log(watch("image"));
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
