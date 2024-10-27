@@ -43,6 +43,7 @@
       <h2># Features</h2>
       <ul>
         <li>Authentication using supabase</li>
+        <li>Search for tasks with autocomplete feature implemented using Trie data structure</li>
         <li>Get full control on user's tasks</li>
         <li>Drag and drop feature ( kanban board )</li>
       </ul>
