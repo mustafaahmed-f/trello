@@ -10,5 +10,6 @@ export const newTaskSchema = yup
     priority: generalValidations.Priority.required("Priority is required"),
     state: generalValidations.State.required("State is required"),
     image: generalValidations.Image.required("Image is required"),
+    assigned_to: generalValidations.userName.required("User is required"),
   })
   .required();

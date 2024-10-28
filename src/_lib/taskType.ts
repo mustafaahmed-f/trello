@@ -5,4 +5,5 @@ export interface taskType {
   priority: string;
   image: string;
   state: "todo" | "doing" | "done";
+  created_by: string;
 }

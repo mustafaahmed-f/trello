@@ -9,6 +9,10 @@ interface props {
   onUploadComplete: (uploaded: boolean) => void;
 }
 
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
 const ImageUploader = ({ register, setValue, onUploadComplete }: props) => {
   const [file, setFile] = useState<null | any>(null);
   const [message, setMessage] = useState("");
@@ -23,7 +27,7 @@ const ImageUploader = ({ register, setValue, onUploadComplete }: props) => {
       return;
     }
 
-    const filePath = `${file?.name}`; // Uploading to root of the bucket
+    const filePath = `${user?.id}/${file?.name}`; // Uploading to root of the bucket
 
     // Upload file to Supabase
     const { error } = await supabase.storage
@@ -33,7 +37,7 @@ const ImageUploader = ({ register, setValue, onUploadComplete }: props) => {
     if (error) {
       setMessage(`Upload failed: ${error.message}`);
     } else {
-      const publicURL = `${supabaseUrl}/storage/v1/object/public/Trello%20tasks/${file.name}`;
+      const publicURL = `${supabaseUrl}/storage/v1/object/public/Trello%20tasks/${user?.id}/${file.name}`;
       setValue("image", publicURL); // Set the public URL in the form
       console.log(publicURL);
       setMessage("Upload successful!");

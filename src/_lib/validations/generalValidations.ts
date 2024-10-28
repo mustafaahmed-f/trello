@@ -22,7 +22,7 @@ const generalValidations = {
     .oneOf([yup.ref("password")], "Password should match"),
 
   Image: yup.string(),
-  Title: yup.string().min(3, "Min. length 3").max(20, "Max. length 20"),
+  Title: yup.string().min(3, "Min. length 3").max(50, "Max. length 50"),
   Description: yup.string().min(3, "Min. length 3").max(100, "Max. length 100"),
   Priority: yup
     .string()
@@ -31,6 +31,7 @@ const generalValidations = {
     .string()
     .matches(/^(todo|doing|done)$/, "State should be todo, doing or done")
     .default("todo"),
+  assigned_to: yup.string(),
 };
 
 export default generalValidations;

@@ -16,6 +16,33 @@ export async function getTasks() {
   return data;
 }
 
+export async function getAssignedTasks() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { data, error } = await supabase
+    .from("tasks")
+    .select("*")
+    .eq("assigned_to", user?.id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Failed to fetch tasks");
+  }
+  return data;
+}
+
+export async function getUsersToAssign() {
+  const { data, error } = await supabase
+    .from("users")
+    .select("userName,user_id");
+  if (error) {
+    console.error(error);
+    throw new Error("Failed to fetch users");
+  }
+  return data;
+}
+
 export async function getSingleTask(id: number) {
   const {
     data: { user },

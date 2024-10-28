@@ -8,6 +8,9 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import Loader from "../../../components/Loader";
+import { getUserById } from "../../../_lib/APIs/AuthApis";
+import { useAppSelector } from "../../../_lib/Store/Store";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -28,6 +31,11 @@ export default function ViewTask({
   children?: React.ReactNode;
 }) {
   const [open, setOpen] = React.useState(false);
+  const { 0: isLoading, 1: setIsLoading } = React.useState(true);
+  const { 0: userName, 1: setUserName } = React.useState("");
+  const { userName: createdBy_UserName } = useAppSelector(
+    (store) => store.user
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,6 +45,21 @@ export default function ViewTask({
     setOpen(false);
     setHideDropList(false);
   };
+
+  React.useEffect(() => {
+    async function getAssined() {
+      try {
+        let assignedUser = task.assigned_to;
+        let user = await getUserById(assignedUser);
+        setUserName(user?.userName);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+      }
+    }
+
+    getAssined();
+  }, [setIsLoading, setUserName, task.assigned_to]);
 
   return (
     <React.Fragment>
@@ -54,7 +77,11 @@ export default function ViewTask({
         open={open}
         fullWidth
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+        <DialogTitle
+          sx={{ m: 0, p: 2 }}
+          id="customized-dialog-title"
+          fontWeight={"bold"}
+        >
           {task.title} ({task.state})
         </DialogTitle>
         <IconButton
@@ -69,13 +96,34 @@ export default function ViewTask({
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers className="flex flex-col gap-6">
-          <Typography gutterBottom>{task.description}</Typography>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <DialogContent dividers className="flex flex-col gap-6">
+            <Typography gutterBottom>
+              <span className="font-semibold underline me-2 underline-offset-1">
+                Created by :
+              </span>
+              {createdBy_UserName}
+            </Typography>
+            <Typography gutterBottom>
+              <span className="font-semibold underline me-2 underline-offset-1">
+                Assigned to :
+              </span>
+              {userName}
+            </Typography>
+            <Typography gutterBottom>
+              <span className="font-semibold underline me-2 underline-offset-1">
+                Description :
+              </span>
+              {task.description}
+            </Typography>
 
-          <Typography gutterBottom>
-            <img src={task.image} />
-          </Typography>
-        </DialogContent>
+            <Typography gutterBottom>
+              <img src={task.image} />
+            </Typography>
+          </DialogContent>
+        )}
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
             Close

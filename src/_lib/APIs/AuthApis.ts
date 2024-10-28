@@ -57,3 +57,16 @@ export async function logout() {
     throw error;
   }
 }
+
+export async function getUserById(id: string) {
+  const { data, error } = await supabase
+    .from("users")
+    .select("userName")
+    .eq("user_id", id)
+    .single();
+  if (error) {
+    console.error("Error fetching user:", error.message);
+    throw error;
+  }
+  return data;
+}

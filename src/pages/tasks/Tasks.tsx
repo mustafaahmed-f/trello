@@ -13,6 +13,7 @@ interface TasksProps {}
 function Tasks({}: TasksProps) {
   const { 0: isLoading, 1: setIsLoading } = useState(true);
   const { 0: open, 1: setOpen } = useState(false);
+  //// value of filtering
   const { 0: selectedValue, 1: setSelectedValue } = useState("");
 
   const handleClickOpen = () => {
@@ -26,7 +27,7 @@ function Tasks({}: TasksProps) {
 
   const user = useAppSelector((store) => store.user);
   const dipatch = useAppDispatch();
-  const { tasks } = useAppSelector((store) => store.tasks);
+  const { tasks: reduxTasks } = useAppSelector((store) => store.tasks);
   useEffect(() => {
     async function checkUser() {
       if (!user.isAuth) {
@@ -40,10 +41,11 @@ function Tasks({}: TasksProps) {
   useEffect(() => {
     async function tasks() {
       setIsLoading(true);
-      const tasks = await getTasks();
+      const fetchedTasks = await getTasks();
+      console.log(fetchedTasks);
       setIsLoading(false);
-      if (tasks) {
-        dipatch(fetchTasks(tasks));
+      if (fetchedTasks) {
+        dipatch(fetchTasks(fetchedTasks));
       }
     }
 
@@ -52,8 +54,8 @@ function Tasks({}: TasksProps) {
 
   let finalTasks =
     selectedValue === "" || selectedValue === "none"
-      ? tasks
-      : tasks.filter((task) => task.priority === selectedValue);
+      ? reduxTasks
+      : reduxTasks.filter((task) => task.priority === selectedValue);
 
   const toDoTasks = finalTasks.filter((task) => task.state === "todo");
   const inProgressTasks = finalTasks.filter((task) => task.state === "doing");
@@ -63,16 +65,26 @@ function Tasks({}: TasksProps) {
     <Loader />
   ) : (
     <>
-      <div className="flex gap-3 mb-3">
-        <NewTaskDialog />
-        <Button variant="outlined" onClick={handleClickOpen}>
-          Filter
-        </Button>
-        <FilterBtn
-          selectedValue={selectedValue}
-          open={open}
-          onClose={handleClose}
-        />
+      <div className="flex flex-col gap-3 mb-3">
+        <div className="flex gap-3 ">
+          <NewTaskDialog />
+          <Button variant="outlined" onClick={handleClickOpen}>
+            Filter
+          </Button>
+          <FilterBtn
+            selectedValue={selectedValue}
+            open={open}
+            onClose={handleClose}
+          />
+        </div>
+        {selectedValue && selectedValue !== "none" && (
+          <p>
+            <span className="font-bold underline underline-offset-1 me-1">
+              Filtered By :
+            </span>
+            {selectedValue}
+          </p>
+        )}
       </div>
       <div className="max-sm:flex max-sm:flex-col items-center justify-between w-full gap-3 sm:grid sm:grid-cols-[1fr_1fr_1fr]">
         <TaskList tasks={toDoTasks} state="To Do" />
