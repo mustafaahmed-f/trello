@@ -1,14 +1,18 @@
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getTasks, getUsersToAssign } from "../../_lib/APIs/TaskAPIs";
+import {
+  getAssignedTasks,
+  getTasks,
+  getUsersToAssign,
+} from "../../_lib/APIs/TaskAPIs";
 import { fetchTasks } from "../../_lib/Store/Slices/TasksSlice";
 import { useAppDispatch, useAppSelector } from "../../_lib/Store/Store";
 import { checkUserSession } from "../../_lib/checkUserSession";
-import Loader from "../../components/Loader";
-import NewTaskDialog from "./components/NewTaskDialog";
-import TaskList from "./components/TaskList";
-import { Button } from "@mui/material";
-import FilterBtn from "./components/FilterBtn";
 import supabase from "../../_lib/supabase";
+import Loader from "../../components/Loader";
+import FilterBtn from "./components/FilterBtn";
+import NewTaskDialog from "./components/NewTaskDialog";
+import TasksTabs from "./components/TasksTabs";
 interface TasksProps {}
 
 function Tasks({}: TasksProps) {
@@ -35,7 +39,10 @@ function Tasks({}: TasksProps) {
 
   const user = useAppSelector((store) => store.user);
   const dipatch = useAppDispatch();
-  const { tasks: reduxTasks } = useAppSelector((store) => store.tasks);
+  const { tasks: createdTasks, assignedTasks } = useAppSelector(
+    (store) => store.tasks
+  );
+
   useEffect(() => {
     async function checkUser() {
       if (!user.isAuth) {
@@ -53,16 +60,21 @@ function Tasks({}: TasksProps) {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (!reduxTasks.length) {
+      if (!createdTasks.length) {
         setIsLoading(true);
-        const { 0: fetchedTasks, 1: assignUsers } = await Promise.all([
+        const {
+          0: fetchedTasks,
+          1: assignUsers,
+          2: assignedTasks,
+        } = await Promise.all([
           getTasks(),
           getUsersToAssign(user!.id),
+          getAssignedTasks(),
         ]);
         // const fetchedTasks = await getTasks();
         setIsLoading(false);
         if (fetchedTasks) {
-          dipatch(fetchTasks(fetchedTasks));
+          dipatch(fetchTasks({ tasks: fetchedTasks, assignedTasks }));
         }
         if (assignUsers) {
           setUsersToAssign(assignUsers);
@@ -71,17 +83,18 @@ function Tasks({}: TasksProps) {
     }
 
     tasks();
-  }, [dipatch, setIsLoading, reduxTasks.length, setUsersToAssign]);
+  }, [dipatch, setIsLoading, createdTasks.length, setUsersToAssign]);
 
-  let finalTasks =
+  let finalcreatedTasks =
     selectedValue === "" || selectedValue === "none"
-      ? reduxTasks
-      : reduxTasks.filter((task) => task.priority === selectedValue);
+      ? createdTasks
+      : createdTasks.filter((task) => task.priority === selectedValue);
 
-  const toDoTasks = finalTasks.filter((task) => task.state === "todo");
-  const inProgressTasks = finalTasks.filter((task) => task.state === "doing");
-  const doneTasks = finalTasks.filter((task) => task.state === "done");
-  // console.log(toDoTasks);
+  let finalAssignedTasks =
+    selectedValue === "" || selectedValue === "none"
+      ? assignedTasks
+      : assignedTasks.filter((task) => task.priority === selectedValue);
+
   return isLoading ? (
     <Loader />
   ) : (
@@ -107,11 +120,11 @@ function Tasks({}: TasksProps) {
           </p>
         )}
       </div>
-      <div className="max-sm:flex max-sm:flex-col items-center justify-between w-full gap-3 sm:grid sm:grid-cols-[1fr_1fr_1fr]">
-        <TaskList tasks={toDoTasks} state="To Do" />
-        <TaskList tasks={inProgressTasks} state="On Progress" />
-        <TaskList tasks={doneTasks} state="Done" />
-      </div>
+
+      <TasksTabs
+        createdTasks={finalcreatedTasks}
+        assignedTasks={finalAssignedTasks}
+      />
     </>
   );
 }

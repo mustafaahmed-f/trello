@@ -1,16 +1,15 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import IconButton from "@mui/material/IconButton";
+import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import Loader from "../../../components/Loader";
+import * as React from "react";
 import { getUserById } from "../../../_lib/APIs/AuthApis";
-import { useAppSelector } from "../../../_lib/Store/Store";
+import Loader from "../../../components/Loader";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -32,11 +31,9 @@ export default function ViewTask({
 }) {
   const [open, setOpen] = React.useState(false);
   const { 0: isLoading, 1: setIsLoading } = React.useState(true);
-  const { 0: userName, 1: setUserName } = React.useState("");
-  const { userName: createdBy_UserName } = useAppSelector(
-    (store) => store.user
-  );
-
+  const { 0: assignedUserName, 1: setAssignedUserName } = React.useState("");
+  const { 0: creatorUserName, 1: setCreatorUserName } = React.useState("");
+  console.log(task?.created_by);
   const handleClickOpen = () => {
     setOpen(true);
     setHideDropList(true);
@@ -49,9 +46,19 @@ export default function ViewTask({
   React.useEffect(() => {
     async function getAssined() {
       try {
-        let assignedUser = task.assigned_to;
-        let user = await getUserById(assignedUser);
-        setUserName(user?.userName);
+        let assignedUser = task?.assigned_to;
+        let creator = task?.created_by;
+        let results = await Promise.allSettled([
+          getUserById(creator),
+          getUserById(assignedUser),
+        ]);
+
+        const createdByUser =
+          results[0].status === "fulfilled" ? results[0].value : null;
+        const assignedToUser =
+          results[1].status === "fulfilled" ? results[1].value : null;
+        setAssignedUserName(assignedToUser?.userName);
+        setCreatorUserName(createdByUser?.userName);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -59,7 +66,13 @@ export default function ViewTask({
     }
 
     getAssined();
-  }, [setIsLoading, setUserName, task.assigned_to]);
+  }, [
+    setIsLoading,
+    setAssignedUserName,
+    task?.assigned_to,
+    task?.created_by,
+    setCreatorUserName,
+  ]);
 
   return (
     <React.Fragment>
@@ -82,7 +95,7 @@ export default function ViewTask({
           id="customized-dialog-title"
           fontWeight={"bold"}
         >
-          {task.title} ({task.state})
+          {task?.title} ({task?.state})
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -104,23 +117,23 @@ export default function ViewTask({
               <span className="font-semibold underline me-2 underline-offset-1">
                 Created by :
               </span>
-              {createdBy_UserName}
+              {creatorUserName}
             </Typography>
             <Typography gutterBottom>
               <span className="font-semibold underline me-2 underline-offset-1">
                 Assigned to :
               </span>
-              {userName}
+              {assignedUserName ?? "Not assigned"}
             </Typography>
             <Typography gutterBottom>
               <span className="font-semibold underline me-2 underline-offset-1">
                 Description :
               </span>
-              {task.description}
+              {task?.description}
             </Typography>
 
             <Typography gutterBottom>
-              <img src={task.image} />
+              <img src={task?.image} />
             </Typography>
           </DialogContent>
         )}

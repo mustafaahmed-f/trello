@@ -4,14 +4,16 @@ import { tasksStateType } from "./TasksStateType";
 
 const initialState: tasksStateType = {
   tasks: [],
+  assignedTasks: [],
 };
 
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
-    fetchTasks: (state, action: PayloadAction<taskType[]>) => {
-      state.tasks = action.payload;
+    fetchTasks: (state, action: PayloadAction<tasksStateType>) => {
+      state.tasks = action.payload.tasks;
+      state.assignedTasks = action.payload.assignedTasks;
     },
     addTaskSlice: (state, action: PayloadAction<taskType>) => {
       state.tasks.push(action.payload);

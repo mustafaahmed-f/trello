@@ -22,10 +22,10 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function DeleteDialog({
-  taskId,
+  task,
   setHideDropList,
 }: {
-  taskId: number;
+  task: any;
   setHideDropList: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [open, setOpen] = React.useState(false);
@@ -44,8 +44,8 @@ export default function DeleteDialog({
   const handleDeleteTask = async () => {
     setIsLoading(true);
     const loading = toast.loading("Deleting task");
-    await deleteTask(taskId);
-    dispatch(deleteTaskSlice(taskId));
+    await deleteTask(task.id);
+    dispatch(deleteTaskSlice(task.id));
     toast.dismiss(loading);
     toast.success("Task deleted successfully !");
     setIsLoading(false);

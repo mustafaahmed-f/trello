@@ -1,11 +1,10 @@
 import { useState } from "react";
-import supabase from "../_lib/supabase";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
-import { FormFields } from "../pages/tasks/components/NewTaskDialog";
+import supabase from "../_lib/supabase";
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 interface props {
-  register: UseFormRegister<FormFields>;
-  setValue: UseFormSetValue<FormFields>;
+  register: UseFormRegister<any>;
+  setValue: UseFormSetValue<any>;
   onUploadComplete: (uploaded: boolean) => void;
 }
 

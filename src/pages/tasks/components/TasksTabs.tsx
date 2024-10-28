@@ -2,6 +2,8 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import TaskList from "./TaskList";
+import { taskType } from "../../../_lib/taskType";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,7 +34,13 @@ function a11yProps(index: number) {
   };
 }
 
-export default function TasksTabs() {
+export default function TasksTabs({
+  createdTasks,
+  assignedTasks,
+}: {
+  createdTasks: taskType[];
+  assignedTasks: taskType[];
+}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -43,24 +51,42 @@ export default function TasksTabs() {
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+        <Tabs value={value} onChange={handleChange} aria-label="Tasks">
+          <Tab label="Created Tasks" {...a11yProps(0)} />
+          <Tab label="Assigned Tasks" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Item One
+        <div className="max-sm:flex max-sm:flex-col items-center justify-between w-full gap-3 sm:grid sm:grid-cols-[1fr_1fr_1fr]">
+          <TaskList
+            tasks={createdTasks.filter((task) => task.state === "todo")}
+            state="To Do"
+          />
+          <TaskList
+            tasks={createdTasks.filter((task) => task.state === "doing")}
+            state="On Progress"
+          />
+          <TaskList
+            tasks={createdTasks.filter((task) => task.state === "done")}
+            state="Done"
+          />
+        </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Item Three
+        <div className="max-sm:flex max-sm:flex-col items-center justify-between w-full gap-3 sm:grid sm:grid-cols-[1fr_1fr_1fr]">
+          <TaskList
+            tasks={assignedTasks.filter((task) => task.state === "todo")}
+            state="To Do"
+          />
+          <TaskList
+            tasks={assignedTasks.filter((task) => task.state === "doing")}
+            state="On Progress"
+          />
+          <TaskList
+            tasks={assignedTasks.filter((task) => task.state === "done")}
+            state="Done"
+          />
+        </div>
       </CustomTabPanel>
     </Box>
   );

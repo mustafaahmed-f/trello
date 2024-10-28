@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import OptionsDropList from "./OptionsDropList";
 import dotsImage from "/src/assets/dots.svg";
-import { Avatar } from "@mui/material";
 interface SingleTasksProps {
   task: any;
 }
@@ -12,8 +11,6 @@ function SingleTasks({ task }: SingleTasksProps) {
   const { 0: hideDropList, 1: setHideDropList } = React.useState(false);
   const buttonRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // console.log(task);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -56,10 +53,7 @@ function SingleTasks({ task }: SingleTasksProps) {
               ref={dropdownRef}
               className={hideDropList ? "opacity-0" : "opacity-100"}
             >
-              <OptionsDropList
-                taskId={task.id}
-                setHideDropList={setHideDropList}
-              />
+              <OptionsDropList task={task} setHideDropList={setHideDropList} />
             </div>
           )}
         </div>

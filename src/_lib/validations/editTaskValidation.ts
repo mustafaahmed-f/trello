@@ -3,13 +3,13 @@ import generalValidations from "./generalValidations";
 
 export const editTaskSchema = yup
   .object({
-    title: generalValidations.Title.required("Title is required"),
+    title: generalValidations.Title,
     description: generalValidations.Description.required(
       "Description is required"
     ),
-    priority: generalValidations.Priority.required("Priority is required"),
+    priority: generalValidations.Priority,
     state: generalValidations.State.required("State is required"),
-    image: generalValidations.Image.required("Image is required"),
-    assigned_to: generalValidations.assigned_to.required("User is required"),
+    image: generalValidations.Image,
+    assigned_to: generalValidations.assigned_to,
   })
   .required();

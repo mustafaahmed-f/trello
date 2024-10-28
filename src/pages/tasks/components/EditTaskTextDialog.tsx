@@ -5,7 +5,7 @@ import { FormFields } from "./EditTaskDialog";
 interface EditTaskTextDialogProps {
   field: keyof FormFields;
   errors: FieldErrors<FormFields>;
-  register: UseFormRegister<FormFields>;
+  register: UseFormRegister<any>;
   currentTask: any;
 }
 

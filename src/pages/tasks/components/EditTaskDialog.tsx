@@ -4,42 +4,40 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from "@mui/material";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormSetValue } from "react-hook-form";
 import toast from "react-hot-toast";
 import { updateTask } from "../../../_lib/APIs/TaskAPIs";
 import { updateTaskSlice } from "../../../_lib/Store/Slices/TasksSlice";
 import { useAppDispatch, useAppSelector } from "../../../_lib/Store/Store";
 import { editTaskSchema } from "../../../_lib/validations/editTaskValidation";
 import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
-import EditTaskTextDialog from "./EditTaskTextDialog";
 import ImageUploader from "../../../components/ImageUploader";
+import EditTaskTextDialog from "./EditTaskTextDialog";
 
 interface EditTaskDialogProps {
-  taskId: number;
+  task: any;
   setHideDropList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface FormFields {
-  title: string;
-  description: string;
-  priority: string;
+  title?: string;
+  description?: string;
+  priority?: string;
   state: string;
-  image: string;
-  assigned_to: string;
+  image?: string;
+  assigned_to?: string;
 }
 
-function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
+function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
   const { 0: isLoading, 1: setIsLoading } = React.useState(false);
   const { 0: isImageUploaded, 1: setIsImageUploaded } = React.useState(false);
   const { userId } = useAppSelector((store) => store.user);
 
-  const { tasks } = useAppSelector((store) => store.tasks);
   const dipatch = useAppDispatch();
-  const currentTask = tasks.find((task) => task.id === taskId);
+  const currentTask = task;
 
   const schema = editTaskSchema;
   const [open, setOpen] = React.useState(false);
@@ -68,8 +66,8 @@ function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     const loading = toast.loading("Updating task");
-    await updateTask(taskId, data);
-    dipatch(updateTaskSlice({ ...data, id: taskId }));
+    await updateTask(currentTask.id, data);
+    dipatch(updateTaskSlice({ ...data, id: currentTask.id }));
     toast.dismiss(loading);
     toast.success("Task updated successfully !");
     setIsLoading(false);
@@ -115,7 +113,7 @@ function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
                 <ImageUploader
                   onUploadComplete={(uploaded) => setIsImageUploaded(uploaded)}
                   register={register}
-                  setValue={setValue}
+                  setValue={setValue as UseFormSetValue<any>}
                 />
               </div>
             )}
