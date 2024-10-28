@@ -47,6 +47,7 @@ export async function logIn({ email, password }: any) {
   return {
     email: user?.email,
     userName: profile?.userName || null,
+    userId: user?.id,
   };
 }
 

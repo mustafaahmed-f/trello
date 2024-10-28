@@ -6,4 +6,5 @@ export interface taskType {
   image: string;
   state: "todo" | "doing" | "done";
   created_by: string;
+  assigned_to: string;
 }

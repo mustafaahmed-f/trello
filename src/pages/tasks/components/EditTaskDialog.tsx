@@ -29,14 +29,18 @@ export interface FormFields {
   priority: string;
   state: string;
   image: string;
+  assigned_to: string;
 }
 
 function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
   const { 0: isLoading, 1: setIsLoading } = React.useState(false);
   const { 0: isImageUploaded, 1: setIsImageUploaded } = React.useState(false);
+  const { userId } = useAppSelector((store) => store.user);
+
   const { tasks } = useAppSelector((store) => store.tasks);
   const dipatch = useAppDispatch();
   const currentTask = tasks.find((task) => task.id === taskId);
+
   const schema = editTaskSchema;
   const [open, setOpen] = React.useState(false);
   const {
@@ -51,6 +55,7 @@ function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
     criteriaMode: "firstError",
   });
 
+  console.log(isImageUploaded);
   const handleClickOpen = () => {
     setOpen(true);
     setHideDropList(true);
@@ -83,27 +88,37 @@ function EditTaskDialog({ taskId, setHideDropList }: EditTaskDialogProps) {
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogTitle>New Task</DialogTitle>
+          <DialogTitle>Edit Task</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Add you task by filling all the following fields :
-            </DialogContentText>
-            {fields.slice(0, 4).map((field, i) => (
+            {userId === currentTask?.assigned_to ? (
               <EditTaskTextDialog
-                key={i}
                 currentTask={currentTask}
-                field={field}
+                field={"state"}
                 errors={errors}
                 register={register}
               />
-            ))}
-            <div className="my-3">
-              <ImageUploader
-                onUploadComplete={(uploaded) => setIsImageUploaded(uploaded)}
-                register={register}
-                setValue={setValue}
-              />
-            </div>
+            ) : (
+              fields
+                .slice(0, 4)
+                .map((field, i) => (
+                  <EditTaskTextDialog
+                    key={i}
+                    currentTask={currentTask}
+                    field={field}
+                    errors={errors}
+                    register={register}
+                  />
+                ))
+            )}
+            {userId === currentTask?.created_by && (
+              <div className="my-3">
+                <ImageUploader
+                  onUploadComplete={(uploaded) => setIsImageUploaded(uploaded)}
+                  register={register}
+                  setValue={setValue}
+                />
+              </div>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} type="button" disabled={isLoading}>

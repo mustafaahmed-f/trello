@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTasks } from "../../_lib/APIs/TaskAPIs";
+import { getTasks, getUsersToAssign } from "../../_lib/APIs/TaskAPIs";
 import { fetchTasks } from "../../_lib/Store/Slices/TasksSlice";
 import { useAppDispatch, useAppSelector } from "../../_lib/Store/Store";
 import { checkUserSession } from "../../_lib/checkUserSession";
@@ -8,6 +8,7 @@ import NewTaskDialog from "./components/NewTaskDialog";
 import TaskList from "./components/TaskList";
 import { Button } from "@mui/material";
 import FilterBtn from "./components/FilterBtn";
+import supabase from "../../_lib/supabase";
 interface TasksProps {}
 
 function Tasks({}: TasksProps) {
@@ -15,6 +16,13 @@ function Tasks({}: TasksProps) {
   const { 0: open, 1: setOpen } = useState(false);
   //// value of filtering
   const { 0: selectedValue, 1: setSelectedValue } = useState("");
+  //// users to assign state will be sent to the new task dialog
+  const { 0: usersToAssign, 1: setUsersToAssign } = useState<
+    {
+      userName: string;
+      user_id: string;
+    }[]
+  >([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -40,17 +48,30 @@ function Tasks({}: TasksProps) {
 
   useEffect(() => {
     async function tasks() {
-      setIsLoading(true);
-      const fetchedTasks = await getTasks();
-      console.log(fetchedTasks);
-      setIsLoading(false);
-      if (fetchedTasks) {
-        dipatch(fetchTasks(fetchedTasks));
+      //// used to get logged in user's id to use it in getUsersToAssign API
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!reduxTasks.length) {
+        setIsLoading(true);
+        const { 0: fetchedTasks, 1: assignUsers } = await Promise.all([
+          getTasks(),
+          getUsersToAssign(user!.id),
+        ]);
+        // const fetchedTasks = await getTasks();
+        setIsLoading(false);
+        if (fetchedTasks) {
+          dipatch(fetchTasks(fetchedTasks));
+        }
+        if (assignUsers) {
+          setUsersToAssign(assignUsers);
+        }
       }
     }
 
     tasks();
-  }, [dipatch, setIsLoading]);
+  }, [dipatch, setIsLoading, reduxTasks.length, setUsersToAssign]);
 
   let finalTasks =
     selectedValue === "" || selectedValue === "none"
@@ -67,7 +88,7 @@ function Tasks({}: TasksProps) {
     <>
       <div className="flex flex-col gap-3 mb-3">
         <div className="flex gap-3 ">
-          <NewTaskDialog />
+          <NewTaskDialog usersToAssign={usersToAssign} />
           <Button variant="outlined" onClick={handleClickOpen}>
             Filter
           </Button>

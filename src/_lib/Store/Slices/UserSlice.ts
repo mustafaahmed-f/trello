@@ -5,6 +5,7 @@ const initialState: usersStateType = {
   isAuth: false,
   userName: "",
   email: "",
+  userId: "",
 };
 
 const userSlice = createSlice({
@@ -15,6 +16,7 @@ const userSlice = createSlice({
       state.isAuth = true;
       state.userName = action.payload.userName;
       state.email = action.payload.email;
+      state.userId = action.payload.userId;
     },
     logOut: (state) => {
       state.isAuth = false;

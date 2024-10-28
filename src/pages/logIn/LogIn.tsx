@@ -21,10 +21,16 @@ function LogIn({}: LogInProps) {
     const loading = toast.loading("Logging ..");
     try {
       setIsLoading(true);
-      const { email, userName } = await logIn(data);
+      const { email, userName, userId } = await logIn(data);
       toast.dismiss(loading);
       toast.success("logged in successfully !");
-      dispatch(setUser({ email: email ?? "", userName: userName ?? "" }));
+      dispatch(
+        setUser({
+          email: email ?? "",
+          userName: userName ?? "",
+          userId: userId!,
+        })
+      );
       navigate("/tasks");
     } catch (error) {
       toast.dismiss(loading);

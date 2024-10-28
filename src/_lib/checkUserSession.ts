@@ -14,6 +14,6 @@ export async function checkUserSession() {
       .single();
     const userName = userData?.userName || ""; // Default to an empty string if undefined
 
-    store.dispatch(setUser({ email, userName }));
+    store.dispatch(setUser({ email, userName, userId: user.id }));
   }
 }

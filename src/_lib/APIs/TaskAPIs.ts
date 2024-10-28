@@ -32,10 +32,11 @@ export async function getAssignedTasks() {
   return data;
 }
 
-export async function getUsersToAssign() {
+export async function getUsersToAssign(id: string) {
   const { data, error } = await supabase
     .from("users")
-    .select("userName,user_id");
+    .select("userName,user_id")
+    .neq("user_id", id);
   if (error) {
     console.error(error);
     throw new Error("Failed to fetch users");

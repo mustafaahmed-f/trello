@@ -16,8 +16,11 @@ import { useAppDispatch } from "../../../_lib/Store/Store";
 import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
 import DialogTextField from "./DialogTextField";
 import ImageUploader from "../../../components/ImageUploader";
+import AssignUsersSelector from "./AssignUsersSelector";
 
-interface NewTaskDialogProps {}
+interface NewTaskDialogProps {
+  usersToAssign: any[];
+}
 
 export interface FormFields {
   title: string;
@@ -25,9 +28,10 @@ export interface FormFields {
   priority: string;
   state: string;
   image: string;
+  assigned_to: string;
 }
 
-function NewTaskDialog({}: NewTaskDialogProps) {
+function NewTaskDialog({ usersToAssign }: NewTaskDialogProps) {
   const { 0: isLoading, 1: setIsLoading } = React.useState(false);
   const { 0: isImageUploaded, 1: setIsImageUploaded } = React.useState(false);
   const schema = newTaskSchema;
@@ -39,13 +43,14 @@ function NewTaskDialog({}: NewTaskDialogProps) {
     formState: { errors, isValid },
     reset,
     setValue,
+    // watch,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
     reValidateMode: "onChange",
     criteriaMode: "firstError",
   });
-
+  // console.log(watch("assigned_to"));
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -83,6 +88,13 @@ function NewTaskDialog({}: NewTaskDialogProps) {
                 register={register}
               />
             ))}
+            <div className="my-3">
+              <AssignUsersSelector
+                usersToAssign={usersToAssign}
+                errors={errors}
+                register={register}
+              />
+            </div>
             <div className="my-3">
               <ImageUploader
                 onUploadComplete={(uploaded) => setIsImageUploaded(uploaded)}
