@@ -5,6 +5,7 @@ class TrieNode {
   originalWord: string;
   taskId: number | null;
   prevNode: TrieNode | null;
+  created_by: string | null;
 
   constructor(value: string) {
     this.value = value;
@@ -13,6 +14,7 @@ class TrieNode {
     this.originalWord = "";
     this.taskId = null;
     this.prevNode = null;
+    this.created_by = null;
   }
 }
 
@@ -23,7 +25,7 @@ export class Trie {
     this.root = new TrieNode("");
   }
 
-  addTask(word: string, id: number): void {
+  addTask(word: string, id: number, created_by: string): void {
     let currentNode: TrieNode = this.root;
     let lowerCasedWord = word.toLowerCase();
     for (let char of lowerCasedWord) {
@@ -37,6 +39,7 @@ export class Trie {
     currentNode.originalWord = word;
     currentNode.wordEnd = true;
     currentNode.taskId = id;
+    currentNode.created_by = created_by;
   }
 
   deleteTask(word: string): void {
@@ -61,9 +64,12 @@ export class Trie {
     }
   }
 
-  search(prefix: string): { taskName: string; taskId: number }[] {
+  search(
+    prefix: string
+  ): { taskName: string; taskId: number; created_by: string }[] {
     if (!prefix) return [];
-    const result: { taskName: string; taskId: number }[] = [];
+    const result: { taskName: string; taskId: number; created_by: string }[] =
+      [];
     let currentNode: TrieNode | null = this.root;
     let lowerCasedPrefix = prefix.toLowerCase();
 
@@ -84,10 +90,14 @@ export class Trie {
 
   private getWords(
     node: TrieNode | null,
-    result: { taskName: string; taskId: number }[]
+    result: { taskName: string; taskId: number; created_by: string }[]
   ): void {
     if (node && node?.originalWord && node.wordEnd) {
-      result.push({ taskName: node.originalWord, taskId: node.taskId! });
+      result.push({
+        taskName: node.originalWord,
+        taskId: node.taskId!,
+        created_by: node.created_by!,
+      });
     }
 
     if (node) {

@@ -79,6 +79,8 @@ function Tasks({}: TasksProps) {
         if (assignUsers) {
           setUsersToAssign(assignUsers);
         }
+      } else {
+        setIsLoading(false);
       }
     }
 

@@ -5,11 +5,17 @@ interface TaskSearchResultProps {
   index: number;
   taskTitle: string;
   taskId: number;
+  isCreated: boolean;
 }
 
-function TaskSearchResult({ index, taskTitle }: TaskSearchResultProps) {
-  const { tasks } = useAppSelector((store) => store.tasks);
-  const task = tasks.find((task) => task.title === taskTitle);
+function TaskSearchResult({
+  index,
+  taskTitle,
+  isCreated,
+}: TaskSearchResultProps) {
+  const { tasks, assignedTasks } = useAppSelector((store) => store.tasks);
+  const targetTasks = isCreated ? tasks : assignedTasks;
+  const task = targetTasks.find((task) => task.title === taskTitle);
   return (
     <div
       className={`py-3 px-4 cursor-pointer ${

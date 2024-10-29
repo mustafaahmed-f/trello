@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useSearchContext } from "../context/SearchProvider";
 import AutoComplete from "./AutoComplete";
 interface SearchDivProps {
-  tasksArr: { taskName: string; taskId: number }[];
+  tasksArr: { taskName: string; taskId: number; created_by: string }[];
 }
 
 function SearchDiv({ tasksArr }: SearchDivProps) {

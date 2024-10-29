@@ -9,12 +9,16 @@ interface HeaderProps {}
 
 function Header({}: HeaderProps) {
   const { isAuth } = useAppSelector((store) => store.user);
-  const { tasks } = useAppSelector((store) => store.tasks);
+  const { tasks, assignedTasks } = useAppSelector((store) => store.tasks);
   const { searchVal } = useSearchContext();
   let tasksArr: any[] = [];
   let trie = new Trie();
   tasks.forEach((task) => {
-    trie.addTask(task.title, task.id);
+    trie.addTask(task.title, task.id, task.created_by);
+  });
+
+  assignedTasks.forEach((task) => {
+    trie.addTask(task.title, task.id, task.created_by);
   });
 
   tasksArr = trie.search(searchVal);
