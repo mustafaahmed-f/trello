@@ -59,9 +59,9 @@ function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
     criteriaMode: "firstError",
   });
 
-  // console.log(isImageUploaded);
   const handleClickOpen = () => {
     setOpen(true);
+    console.log(isImageUploaded);
     setHideDropList(true);
   };
   const handleClose = () => {
