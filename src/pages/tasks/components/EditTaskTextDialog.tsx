@@ -7,6 +7,7 @@ interface EditTaskTextDialogProps {
   errors: FieldErrors<FormFields>;
   register: UseFormRegister<any>;
   currentTask: any;
+  isCreated: boolean;
 }
 
 function EditTaskTextDialog({
@@ -14,11 +15,12 @@ function EditTaskTextDialog({
   errors,
   register,
   currentTask,
+  isCreated,
 }: EditTaskTextDialogProps) {
   return (
     <TextField
-      required
       defaultValue={currentTask[field]}
+      disabled={!isCreated && field !== "state"}
       margin="dense"
       label={field[0].toUpperCase() + field.substring(1)}
       type="text"

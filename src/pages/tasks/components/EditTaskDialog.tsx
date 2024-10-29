@@ -74,6 +74,9 @@ function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
     let finalData = {
       ...data,
       id: currentTask.id,
+      title: currentTask.title,
+      description: currentTask.description,
+      priority: currentTask.priority,
       created_by: currentTask.created_by,
       assigned_to: currentTask.assigned_to,
     };
@@ -105,26 +108,16 @@ function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Edit Task</DialogTitle>
           <DialogContent>
-            {!isCreated ? (
+            {fields.slice(0, 4).map((field, i) => (
               <EditTaskTextDialog
+                key={i}
                 currentTask={currentTask}
-                field={"state"}
+                field={field}
                 errors={errors}
                 register={register}
+                isCreated={isCreated}
               />
-            ) : (
-              fields
-                .slice(0, 4)
-                .map((field, i) => (
-                  <EditTaskTextDialog
-                    key={i}
-                    currentTask={currentTask}
-                    field={field}
-                    errors={errors}
-                    register={register}
-                  />
-                ))
-            )}
+            ))}
             {isCreated && (
               <div className="my-3">
                 <ImageUploader
