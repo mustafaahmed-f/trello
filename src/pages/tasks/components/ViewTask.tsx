@@ -33,7 +33,7 @@ export default function ViewTask({
   const { 0: isLoading, 1: setIsLoading } = React.useState(true);
   const { 0: assignedUserName, 1: setAssignedUserName } = React.useState("");
   const { 0: creatorUserName, 1: setCreatorUserName } = React.useState("");
-  console.log(task?.created_by);
+
   const handleClickOpen = () => {
     setOpen(true);
     setHideDropList(true);

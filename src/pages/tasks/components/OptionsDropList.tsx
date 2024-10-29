@@ -9,7 +9,6 @@ interface OptionsDropListProps {
 }
 
 function OptionsDropList({ task, setHideDropList }: OptionsDropListProps) {
-  console.log(task);
   const { userId } = useAppSelector((store) => store.user);
   return (
     <div className="optionsDropList bg-gray-200 absolute z-[9999999] translate-y-[104%] bottom-0 right-0 rounded-md overflow-hidden">

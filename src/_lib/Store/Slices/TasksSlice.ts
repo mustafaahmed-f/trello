@@ -23,8 +23,16 @@ const tasksSlice = createSlice({
         (task: taskType) => task.id !== action.payload
       );
     },
-    updateTaskSlice: (state, action: PayloadAction<taskType>) => {
+    updateCreatedTasksSlice: (state, action: PayloadAction<taskType>) => {
       state.tasks = state.tasks.map((task: taskType) => {
+        if (task.id === action.payload.id) {
+          return action.payload;
+        }
+        return task;
+      });
+    },
+    updateAssignedTasksSlice: (state, action: PayloadAction<taskType>) => {
+      state.assignedTasks = state.assignedTasks.map((task: taskType) => {
         if (task.id === action.payload.id) {
           return action.payload;
         }
@@ -35,5 +43,10 @@ const tasksSlice = createSlice({
 });
 
 export default tasksSlice.reducer;
-export const { addTaskSlice, deleteTaskSlice, updateTaskSlice, fetchTasks } =
-  tasksSlice.actions;
+export const {
+  addTaskSlice,
+  deleteTaskSlice,
+  updateCreatedTasksSlice,
+  updateAssignedTasksSlice,
+  fetchTasks,
+} = tasksSlice.actions;

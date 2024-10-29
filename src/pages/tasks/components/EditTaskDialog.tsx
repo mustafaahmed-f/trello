@@ -10,7 +10,10 @@ import React from "react";
 import { useForm, UseFormSetValue } from "react-hook-form";
 import toast from "react-hot-toast";
 import { updateTask } from "../../../_lib/APIs/TaskAPIs";
-import { updateTaskSlice } from "../../../_lib/Store/Slices/TasksSlice";
+import {
+  updateAssignedTasksSlice,
+  updateCreatedTasksSlice,
+} from "../../../_lib/Store/Slices/TasksSlice";
 import { useAppDispatch, useAppSelector } from "../../../_lib/Store/Store";
 import { editTaskSchema } from "../../../_lib/validations/editTaskValidation";
 import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
@@ -36,6 +39,9 @@ function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
   const { 0: isImageUploaded, 1: setIsImageUploaded } = React.useState(false);
   const { userId } = useAppSelector((store) => store.user);
 
+  //// this variable is used to make button enabled by default when we edit assigned tasks:
+  const isCreated = task.created_by === userId;
+
   const dipatch = useAppDispatch();
   const currentTask = task;
 
@@ -53,7 +59,7 @@ function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
     criteriaMode: "firstError",
   });
 
-  console.log(isImageUploaded);
+  // console.log(isImageUploaded);
   const handleClickOpen = () => {
     setOpen(true);
     setHideDropList(true);
@@ -64,10 +70,21 @@ function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
   };
 
   const onSubmit = async (data: any) => {
+    console.log(data);
+    let finalData = {
+      ...data,
+      id: currentTask.id,
+      created_by: currentTask.created_by,
+      assigned_to: currentTask.assigned_to,
+    };
     setIsLoading(true);
     const loading = toast.loading("Updating task");
-    await updateTask(currentTask.id, data);
-    dipatch(updateTaskSlice({ ...data, id: currentTask.id }));
+    await updateTask(currentTask.id, finalData);
+    if (task.created_by !== userId) {
+      dipatch(updateAssignedTasksSlice(finalData));
+    } else {
+      dipatch(updateCreatedTasksSlice(finalData));
+    }
     toast.dismiss(loading);
     toast.success("Task updated successfully !");
     setIsLoading(false);
@@ -88,7 +105,7 @@ function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogTitle>Edit Task</DialogTitle>
           <DialogContent>
-            {userId === currentTask?.assigned_to ? (
+            {!isCreated ? (
               <EditTaskTextDialog
                 currentTask={currentTask}
                 field={"state"}
@@ -108,7 +125,7 @@ function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
                   />
                 ))
             )}
-            {userId === currentTask?.created_by && (
+            {isCreated && (
               <div className="my-3">
                 <ImageUploader
                   onUploadComplete={(uploaded) => setIsImageUploaded(uploaded)}
@@ -124,7 +141,7 @@ function EditTaskDialog({ task, setHideDropList }: EditTaskDialogProps) {
             </Button>
             <Button
               type="submit"
-              disabled={isLoading || !isValid ? true : false}
+              disabled={isLoading || (isCreated && !isValid)}
             >
               Edit
             </Button>

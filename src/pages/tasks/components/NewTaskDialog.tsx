@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { addTask } from "../../../_lib/APIs/TaskAPIs";
 import { addTaskSlice } from "../../../_lib/Store/Slices/TasksSlice";
-import { useAppDispatch } from "../../../_lib/Store/Store";
+import { useAppDispatch, useAppSelector } from "../../../_lib/Store/Store";
 import { newTaskSchema } from "../../../_lib/validations/newTaskValidation";
 import DialogTextField from "./DialogTextField";
 import ImageUploader from "../../../components/ImageUploader";
@@ -34,6 +34,7 @@ export interface FormFields {
 function NewTaskDialog({ usersToAssign }: NewTaskDialogProps) {
   const { 0: isLoading, 1: setIsLoading } = React.useState(false);
   const { 0: isImageUploaded, 1: setIsImageUploaded } = React.useState(false);
+  const { userId } = useAppSelector((store) => store.user);
   const schema = newTaskSchema;
   const dipatch = useAppDispatch();
   const [open, setOpen] = React.useState(false);
@@ -58,7 +59,7 @@ function NewTaskDialog({ usersToAssign }: NewTaskDialogProps) {
     setIsLoading(true);
     const loading = toast.loading("Creating task");
     await addTask(data);
-    dipatch(addTaskSlice(data));
+    dipatch(addTaskSlice({ ...data, created_by: userId }));
     toast.dismiss(loading);
     toast.success("Task added successfully !");
     setIsLoading(false);
