@@ -65,13 +65,14 @@ export default function ViewTask({
       }
     }
 
-    getAssined();
+    if (open) getAssined();
   }, [
     setIsLoading,
     setAssignedUserName,
     task?.assigned_to,
     task?.created_by,
     setCreatorUserName,
+    open,
   ]);
 
   return (
