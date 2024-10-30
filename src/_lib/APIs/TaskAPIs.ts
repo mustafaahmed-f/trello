@@ -105,7 +105,7 @@ export async function updateTask(id: number, updatedFields: any) {
     .from("tasks")
     .update(updatedFields)
     .eq("id", id)
-    .eq("created_by", user?.id);
+    .or(`created_by.eq.${user?.id},assigned_to.eq.${user?.id}`);
 
   if (error) {
     console.error(error);
@@ -114,37 +114,3 @@ export async function updateTask(id: number, updatedFields: any) {
 
   return data;
 }
-
-// export const deleteImage = async (path: any) => {
-//   const { error } = await supabase.storage
-//     .from("your-bucket-name")
-//     .remove([path]);
-//   if (error) {
-//     throw new Error(`Error deleting image: ${error.message}`);
-//   }
-// };
-
-// export const uploadImage = async (file: any) => {
-//   const filePath = `${file.name}`; // or any desired path
-//   const { error } = await supabase.storage
-//     .from("your-bucket-name")
-//     .upload(filePath, file);
-//   if (error) {
-//     throw new Error(`Error uploading image: ${error.message}`);
-//   }
-
-//   // Generate public URL
-//   const publicURL = `${supabaseUrl}/storage/v1/object/public/Trello%20tasks/${filePath}`;
-
-//   return publicURL; // Return the public URL of the uploaded image
-// };
-
-// export const updateImage = async (previousImagePath: any, newFile: any) => {
-//   // Step 1: Delete the previous image
-//   await deleteImage(previousImagePath);
-
-//   // Step 2: Upload the new image
-//   const newImageUrl = await uploadImage(newFile);
-
-//   return newImageUrl; // Return the new image URL
-// };
