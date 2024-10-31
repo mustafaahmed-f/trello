@@ -24,7 +24,7 @@ function SingleTasks({ task }: SingleTasksProps) {
   function handleDragging() {
     timeOut.current = setTimeout(() => {
       setDragging(true);
-    }, 150);
+    }, 60);
   }
 
   function handleStopDrag() {
