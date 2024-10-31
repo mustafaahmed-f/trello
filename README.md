@@ -34,7 +34,7 @@
         <li>Supabase</li>
         <li>React-router-dom</li>
         <li>Tailwind CSS</li>
-        <li>BnB drag and drop library</li>
+        <li>DnD drag and drop library</li>
         <li>React form hook + yup</li>
       </ul>
     </section>
